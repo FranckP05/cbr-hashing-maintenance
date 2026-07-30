@@ -34,6 +34,7 @@ class RandomProjectionLSHIndex(CaseIndex):
             key = self._hash_vectors(vector[np.newaxis, :], table_hyperplanes)[0]
             candidate_indices.update(table_buckets.get(key, []))
 
+        self.last_candidate_count = len(candidate_indices)
         candidate_indices = np.array(sorted(candidate_indices), dtype=int)
         if len(candidate_indices) == 0:
             return np.array([], dtype=int), np.array([])
