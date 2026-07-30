@@ -22,6 +22,11 @@ DEFAULT_DATA_PATHS = {
     "heart_disease": "data/raw/heart_disease/processed.cleveland.data",
 }
 
+LSH_PARAMS_BY_DATASET = {
+    "heart_disease": {"num_bits": 5, "num_tables": 16},
+    "diabetes130":   {"num_bits": 10, "num_tables": 16},
+}
+
 
 def main():
     parser = argparse.ArgumentParser(description="Validate indexing methods on any registered dataset.")
@@ -75,7 +80,8 @@ def main():
     kdtree = KDTreeIndex()
     kdtree.build(train_vectors)
 
-    lsh = RandomProjectionLSHIndex(num_tables=16, num_bits=5, random_seed=42)
+    lsh_params = LSH_PARAMS_BY_DATASET[args.dataset]
+    lsh = RandomProjectionLSHIndex(**lsh_params, random_seed=42)
     lsh.build(train_vectors)
 
     # 4. Verify KDTree matches LinearScan exactly
@@ -98,7 +104,7 @@ def main():
         overlap = len(np.intersect1d(lin_idx, lsh_idx))
         lsh_recalls.append(overlap / k)
     mean_recall = np.mean(lsh_recalls)
-    print(f"LSH (num_bits=5, num_tables=16): mean exact-neighbor recall = {mean_recall:.4f} "
+    print(f"LSH {lsh_params}: mean exact-neighbor recall = {mean_recall:.4f} "
           f"over 20 queries")
 
     # 6. Classification accuracy with LSH k=5 weighted vote

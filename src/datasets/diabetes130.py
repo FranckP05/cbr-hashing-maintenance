@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
@@ -31,9 +33,13 @@ HIGH_CARD_TOPK = 50
 ID_COLS = {"encounter_id", "patient_nbr"}
 
 
+LOCAL_CSV_PATH = "data/raw/diabetes_130/diabetic_data.csv"
+
+
 def load_diabetes130():
     """
-    Charge le jeu de données Diabetes 130-US Hospitals (UCI id=296) via ucimlrepo.
+    Charge le jeu de données Diabetes 130-US Hospitals (UCI id=296).
+    Privilégie le fichier CSV local s'il existe, sinon télécharge via ucimlrepo.
 
     Le prétraitement des colonnes à haute cardinalité (diagnostics ICD9, spécialité
     médicale, codes d'admission/sortie) regroupe les catégories rares sous "OTHER" avec
@@ -46,18 +52,25 @@ def load_diabetes130():
     indicatives, pas des limites strictes. Le modèle HeCBR traite les 390 dimensions sans
     difficulté.
     """
-    try:
-        from ucimlrepo import fetch_ucirepo
-    except ImportError:
-        raise ImportError(
-            "ucimlrepo is required. Install it with: pip install ucimlrepo"
-        )
-    diabetes = fetch_ucirepo(id=296)
-    X_df = diabetes.data.features.copy()
-    y_series = diabetes.data.targets.copy().iloc[:, 0]
-
-    encounter_ids = X_df["encounter_id"].values if "encounter_id" in X_df.columns \
-                    else np.arange(len(X_df))
+    if os.path.exists(LOCAL_CSV_PATH):
+        df = pd.read_csv(LOCAL_CSV_PATH, na_values="?")
+        target_col = "readmitted"
+        X_df = df.drop(columns=[target_col]).copy()
+        y_series = df[target_col]
+        encounter_ids = X_df["encounter_id"].values if "encounter_id" in X_df.columns \
+                        else np.arange(len(X_df))
+    else:
+        try:
+            from ucimlrepo import fetch_ucirepo
+        except ImportError:
+            raise ImportError(
+                "ucimlrepo is required. Install it with: pip install ucimlrepo"
+            )
+        diabetes = fetch_ucirepo(id=296)
+        X_df = diabetes.data.features.copy()
+        y_series = diabetes.data.targets.copy().iloc[:, 0]
+        encounter_ids = X_df["encounter_id"].values if "encounter_id" in X_df.columns \
+                        else np.arange(len(X_df))
 
     feature_cols = [c for c in X_df.columns if c not in ID_COLS]
     X_df = X_df[feature_cols].copy()
