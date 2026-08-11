@@ -1,0 +1,11 @@
+numpy
+pandas
+scikit-learn
+faiss-cpu
+datasketch
+bokeh
+selenium
+pyarrow
+scipy
+pytest
+matplotlib
