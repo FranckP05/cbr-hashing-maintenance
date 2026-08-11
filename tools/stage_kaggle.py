@@ -9,17 +9,22 @@ config/benchmark.py :
   kaggle/diabetes130/            -> diabetic_data.csv
   kaggle/chestxray14-embeddings/ -> chestxray14_embeddings.parquet + labels.parquet
   kaggle/hecbr-diabetes130-codes/-> hecbr_diabetes130_codes_final.parquet
-  kaggle/notebooks/              -> notebooks exécutables (NB03, puis NB05/NB07)
+  kaggle/notebooks/<nb-slug>/    -> notebooks Kaggle prêts à pousser
+
+Chaque dossier reçoit ses métadonnées Kaggle (`dataset-metadata.json` /
+`kernel-metadata.json` avec les datasets attachés), ce qui rend l'upload déterministe :
+
+  kaggle datasets create -p kaggle/<slug>          (ou -u pour mettre à jour)
+  kaggle kernels push -p kaggle/notebooks/<nb-slug>
 
 Les notebooks Kaggle (03, 05, 07) découvrent le code via /kaggle/input/* contenant
-src/ + config/ (cellule EXP2) ; ils doivent donc tous attacher le dataset
-`hecbr-exp2-code`. L'upload lui-même reste manuel (UI Kaggle ou `kaggle datasets
-create -p <dossier>`).
+src/ + config/ (cellule EXP2) ; ils attachent donc tous `hecbr-exp2-code`.
 
-Usage : python tools/stage_kaggle.py [--with-notebooks]
+Usage : python tools/stage_kaggle.py [--with-notebooks] [--username <kaggle user>]
 """
 
 import argparse
+import json
 import shutil
 from pathlib import Path
 
@@ -45,11 +50,32 @@ DATA_PAYLOADS = {
 }
 
 CODE_PAYLOAD = "hecbr-exp2-code"
-KAGGLE_NOTEBOOKS = [
-    "NB03_benchmark_index_seuls.ipynb",
-    "NB05_scaling.ipynb",
-    "NB07_maintenance.ipynb",
-]
+
+DATASET_TITLES = {
+    "hecbr-exp2-code": "HeCBR Exp2 - code",
+    "heart-disease": "Heart Disease (Cleveland)",
+    "diabetes130": "Diabetes 130-US",
+    "chestxray14-embeddings": "ChestX-ray14 embeddings DenseNet121",
+    "hecbr-diabetes130-codes": "HeCBR Diabetes130 binary codes",
+}
+
+# slug notebook -> (fichier, datasets à attacher)
+KAGGLE_NOTEBOOKS = {
+    "nb03-benchmark-index-seuls": (
+        "NB03_benchmark_index_seuls.ipynb",
+        ["hecbr-exp2-code", "heart-disease", "diabetes130",
+         "chestxray14-embeddings", "hecbr-diabetes130-codes"],
+    ),
+    "nb05-scaling": (
+        "NB05_scaling.ipynb",
+        ["hecbr-exp2-code", "heart-disease", "diabetes130", "chestxray14-embeddings"],
+    ),
+    "nb07-maintenance": (
+        "NB07_maintenance.ipynb",
+        ["hecbr-exp2-code", "heart-disease", "diabetes130",
+         "chestxray14-embeddings", "hecbr-diabetes130-codes"],
+    ),
+}
 
 
 def _copy_tree(src, dst, ignore_names=("__pycache__",)):
@@ -81,7 +107,7 @@ def stage_data_payloads():
 def stage_notebooks():
     dest = STAGE / "notebooks"
     dest.mkdir(parents=True, exist_ok=True)
-    for name in KAGGLE_NOTEBOOKS:
+    for slug, (name, _) in KAGGLE_NOTEBOOKS.items():
         src = CODE_ROOT / "exp2/notebooks" / name
         if not src.exists():
             raise FileNotFoundError(f"notebook manquant: {src}")
@@ -89,13 +115,52 @@ def stage_notebooks():
         print(f"[nb] notebooks/{name}")
 
 
+def write_metadata(username):
+    """Écrit dataset-metadata.json / kernel-metadata.json (upload déterministe)."""
+    for slug, title in DATASET_TITLES.items():
+        meta = {
+            "id": f"{username}/{slug}",
+            "title": title,
+            "isPrivate": True,
+            "licenses": [{"name": "other"}],
+        }
+        (STAGE / slug / "dataset-metadata.json").write_text(
+            json.dumps(meta, indent=2), encoding="utf-8"
+        )
+        print(f"[meta] {slug}/dataset-metadata.json")
+
+    for nb_slug, (name, datasets) in KAGGLE_NOTEBOOKS.items():
+        folder = STAGE / "notebooks" / nb_slug
+        folder.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(STAGE / "notebooks" / name, folder / name)
+        meta = {
+            "id": f"{username}/{nb_slug}",
+            "title": f"{name.rsplit('.', 1)[0].replace('_', ' ')}",
+            "code_file": name,
+            "language": "python",
+            "kernel_type": "notebook",
+            "is_private": True,
+            "enable_gpu": False,
+            "enable_internet": False,
+            "competition_sources": [],
+            "dataset_sources": [f"{username}/{d}" for d in datasets],
+            "kernel_sources": [],
+        }
+        (folder / "kernel-metadata.json").write_text(
+            json.dumps(meta, indent=2), encoding="utf-8"
+        )
+        print(f"[meta] notebooks/{nb_slug}/kernel-metadata.json")
+
+
 def write_manifest():
     lines = [
         "# Manifeste Kaggle — expérience 2 (hachage + maintenance)",
         "",
         "Chaque dossier `kaggle/<slug>/` est un dataset Kaggle à créer (même slug).",
-        "L'upload est manuel :",
-        "  kaggle datasets create -p kaggle/<slug>   (ou via l'UI Kaggle)",
+        "Commandes d'upload (CLI kaggle, depuis la racine du dépôt) :",
+        "  kaggle datasets create -p kaggle/<slug>     # 1re création",
+        "  kaggle datasets create -p kaggle/<slug> -u  # mise à jour",
+        "  kaggle kernels push -p kaggle/notebooks/<nb-slug>",
         "",
         "| Slug | Contenu | Utilisé par |",
         "|---|---|---|",
@@ -105,8 +170,8 @@ def write_manifest():
         "| chestxray14-embeddings | embeddings + labels parquet | NB03, NB05, NB07, NB09 |",
         "| hecbr-diabetes130-codes | codes binaires parquet | NB03 (HeCBR), NB07 |",
         "",
-        "Notebooks Kaggle : kaggle/notebooks/ — à créer dans l'UI Kaggle avec le "
-        "contenu du .ipynb et les datasets ci-dessus attachés. Sorties écrites dans "
+        "Notebooks Kaggle : kaggle/notebooks/<nb-slug>/ — poussés avec leurs datasets"
+        "attachés (dataset_sources dans kernel-metadata.json). Sorties écrites dans "
         "`/kaggle/working` (checkpoint CSV incrémental, reprise sans doublon).",
         "",
         "Variables de réduction (optionnelles, sanity locale uniquement) : NB03_SEEDS, "
@@ -123,7 +188,9 @@ def write_manifest():
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--with-notebooks", action="store_true",
-                        help="copie aussi les notebooks dans kaggle/notebooks/")
+                        help="prépare aussi les notebooks dans kaggle/notebooks/")
+    parser.add_argument("--username", default=None,
+                        help="nom d'utilisateur Kaggle (métadonnées id=user/slug)")
     args = parser.parse_args()
 
     STAGE.mkdir(parents=True, exist_ok=True)
@@ -131,6 +198,8 @@ def main():
     stage_data_payloads()
     if args.with_notebooks:
         stage_notebooks()
+    if args.username:
+        write_metadata(args.username)
     write_manifest()
     print(f"\nTerminé. Paquets dans : {STAGE}")
 
