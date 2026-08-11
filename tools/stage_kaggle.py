@@ -157,10 +157,12 @@ def write_manifest():
         "# Manifeste Kaggle — expérience 2 (hachage + maintenance)",
         "",
         "Chaque dossier `kaggle/<slug>/` est un dataset Kaggle à créer (même slug).",
-        "Commandes d'upload (CLI kaggle, depuis la racine du dépôt) :",
-        "  kaggle datasets create -p kaggle/<slug>     # 1re création",
-        "  kaggle datasets create -p kaggle/<slug> -u  # mise à jour",
-        "  kaggle kernels push -p kaggle/notebooks/<nb-slug>",
+        "Commandes (CLI kaggle, depuis la racine du dépôt) :",
+        "  kaggle datasets create -p kaggle/<slug>                     # 1re création",
+        "  kaggle datasets create -p kaggle/hecbr-exp2-code --dir-mode tar  # code (src/, config/)",
+        "  kaggle datasets version -p kaggle/<slug> -m '<message>' -r tar  # mise à jour (CLI 2.2.x : create -u refusé si existe)",
+        "  kaggle kernels push -p kaggle/notebooks/<nb-slug>          # notebook",
+        "  kaggle kernels push -r ... / kernels run ...               # (non dispo en 2.2.x : lancer depuis l'UI)",
         "",
         "| Slug | Contenu | Utilisé par |",
         "|---|---|---|",
@@ -173,6 +175,10 @@ def write_manifest():
         "Notebooks Kaggle : kaggle/notebooks/<nb-slug>/ — poussés avec leurs datasets"
         "attachés (dataset_sources dans kernel-metadata.json). Sorties écrites dans "
         "`/kaggle/working` (checkpoint CSV incrémental, reprise sans doublon).",
+        "",
+        "Montage des datasets (Kaggle) : layouts `.../input/<slug>` (ancien) et "
+        "`.../input/datasets/<owner>/<slug>` (nouveau) — résolus automatiquement par "
+        "`config.paths.kaggle_input` et la cellule de découverte EXP2 des notebooks.",
         "",
         "Variables de réduction (optionnelles, sanity locale uniquement) : NB03_SEEDS, "
         "NB03_QUERY_CAP (NB05_SEEDS/QUERY_CAP, NB07_SEEDS/QUERY_CAP/TRAIN_CAP/SUBSAMPLE). "

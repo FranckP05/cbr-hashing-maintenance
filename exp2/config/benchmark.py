@@ -11,7 +11,7 @@ Décisions de protocole, documentées dans NB03 (reproductibles, pas de tuning p
   "train" du parquet, distance de Hamming.
 """
 
-from config.paths import ENV
+from config.paths import ENV, kaggle_input
 
 LSH_PARAMS_BY_DATASET = {
     "heart": {"num_bits": 5, "num_tables": 16},
@@ -38,7 +38,9 @@ QUERY_REPETITIONS = 3
 BUILD_WARMUP = 1
 BUILD_REPETITIONS = 3
 
-HECBR_CODES_PATH = {
-    "local": "data/processed/hecbr_diabetes130_codes_final.parquet",
-    "kaggle": "/kaggle/input/hecbr-diabetes130-codes/hecbr_diabetes130_codes_final.parquet",
-}[ENV]
+if ENV == "kaggle":
+    HECBR_CODES_PATH = str(
+        kaggle_input("hecbr-diabetes130-codes") / "hecbr_diabetes130_codes_final.parquet"
+    )
+else:
+    HECBR_CODES_PATH = "data/processed/hecbr_diabetes130_codes_final.parquet"
