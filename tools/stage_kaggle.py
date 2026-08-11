@@ -45,7 +45,11 @@ DATA_PAYLOADS = {
 }
 
 CODE_PAYLOAD = "hecbr-exp2-code"
-KAGGLE_NOTEBOOKS = ["NB03_benchmark_index_seuls.ipynb"]
+KAGGLE_NOTEBOOKS = [
+    "NB03_benchmark_index_seuls.ipynb",
+    "NB05_scaling.ipynb",
+    "NB07_maintenance.ipynb",
+]
 
 
 def _copy_tree(src, dst, ignore_names=("__pycache__",)):
@@ -101,15 +105,15 @@ def write_manifest():
         "| chestxray14-embeddings | embeddings + labels parquet | NB03, NB05, NB07, NB09 |",
         "| hecbr-diabetes130-codes | codes binaires parquet | NB03 (HeCBR), NB07 |",
         "",
-        "Notebooks Kaggle : kaggle/notebooks/ — à créer dans l'UI Kaggle avec le"
-        "contenu du .ipynb et les datasets ci-dessus attachés. Sorties écrites dans"
+        "Notebooks Kaggle : kaggle/notebooks/ — à créer dans l'UI Kaggle avec le "
+        "contenu du .ipynb et les datasets ci-dessus attachés. Sorties écrites dans "
         "`/kaggle/working` (checkpoint CSV incrémental, reprise sans doublon).",
         "",
-        "Variables de réduction (optionnelles, sanity locale uniquement) : NB03_SEEDS,"
-        "NB03_QUERY_CAP. Sur Kaggle, exécution complète par défaut (6 seeds,"
-        "n_queries du protocole).",
+        "Variables de réduction (optionnelles, sanity locale uniquement) : NB03_SEEDS, "
+        "NB03_QUERY_CAP (NB05_SEEDS/QUERY_CAP, NB07_SEEDS/QUERY_CAP/TRAIN_CAP/SUBSAMPLE). "
+        "Sur Kaggle, exécution complète par défaut (6 seeds, n_queries du protocole).",
         "",
-        "Chemin critique (plan §6) : NB03 + NB05 + NB07 en parallèle sur Kaggle,"
+        "Chemin critique (plan §6) : NB03 + NB05 + NB07 en parallèle sur Kaggle, "
         "téléchargement des CSV, puis NB04/06/08 (figures locales).",
     ]
     (STAGE / "MANIFEST.md").write_text("\n".join(lines), encoding="utf-8")
