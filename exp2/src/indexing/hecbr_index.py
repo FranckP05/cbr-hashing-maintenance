@@ -21,7 +21,7 @@ class HeCBRIndex(CaseIndex):
         self.encounter_ids = None
         self.split = None
 
-    def build(self, vectors):
+    def build(self, vectors, restrict_split=None):
         # vectors est ignoré ici : les codes binaires viennent du fichier pré-calculé, pas
         # d'un nouveau calcul à partir des vecteurs bruts (contrairement aux autres index).
         df = pd.read_parquet(self.codes_path)
@@ -30,6 +30,14 @@ class HeCBRIndex(CaseIndex):
         self.labels = df["label"].to_numpy(dtype=np.int64)
         self.encounter_ids = df["encounter_id"].to_numpy(dtype=np.int64)
         self.split = df["split"].to_numpy(dtype=object)
+        # restreindre la recherche à un split (ex. "train") exclut les autres cas de la
+        # base de voisinage ; les indices renvoyés sont alors relatifs à ce sous-ensemble.
+        if restrict_split is not None:
+            mask = self.split == restrict_split
+            self.codes = self.codes[mask]
+            self.labels = self.labels[mask]
+            self.encounter_ids = self.encounter_ids[mask]
+            self.split = self.split[mask]
 
     def query(self, vector, k):
         vector = np.asarray(vector).astype(np.int8)

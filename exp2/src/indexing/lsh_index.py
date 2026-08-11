@@ -64,8 +64,18 @@ class RandomProjectionLSHIndex(CaseIndex):
         if len(candidate_indices) == 0:
             return np.array([], dtype=int), np.array([])
 
+        # Reclassement équitable einsum/BLAS (T1.3) : même identité que le scan linéaire
+        # (LinearScanIndex) — dist² = ||x||² - 2·x·v + ||v||² — évite le temporaire (n, d)
+        # de np.linalg.norm(candidate_vectors - vector, axis=1) et garde la parité
+        # d'implémentation exigée par le protocole.
         candidate_vectors = self.vectors[candidate_indices]
-        distances = np.linalg.norm(candidate_vectors - vector, axis=1)
+        vectors_sq = np.einsum("ij,ij->i", candidate_vectors, candidate_vectors)
+        vector_sq = float(np.dot(vector, vector))
+        distances_sq = -2.0 * (candidate_vectors @ vector)
+        distances_sq += vectors_sq
+        distances_sq += vector_sq
+        np.maximum(distances_sq, 0, out=distances_sq)
+        distances = np.sqrt(distances_sq)
         order = np.argsort(distances)[:k]
         return candidate_indices[order], distances[order]
 
