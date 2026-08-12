@@ -1,0 +1,56 @@
+{
+  "notebook": "NB05",
+  "run_dir": "/kaggle/working/20260811_183844",
+  "completed_at": "2026-08-11T21:19:13",
+  "protocol": {
+    "base_sizes_by_dataset": {
+      "heart": [
+        "max"
+      ],
+      "diabetes130": [
+        10000,
+        50000,
+        "max"
+      ],
+      "chestxray14": [
+        10000,
+        50000,
+        "max"
+      ]
+    },
+    "k": 10,
+    "methods": [
+      "linear",
+      "kdtree",
+      "lsh"
+    ],
+    "seeds": [
+      42,
+      7,
+      123,
+      2024,
+      99,
+      1337
+    ],
+    "lsh_params": "config.benchmark.LSH_PARAMS_BY_DATASET (valid\u00e9s exp1)"
+  },
+  "result_rows": 126,
+  "datasets_done": [
+    "chestxray14",
+    "diabetes130",
+    "heart"
+  ],
+  "methods_done": [
+    "kdtree",
+    "linear",
+    "lsh"
+  ],
+  "seeds_done": [
+    "123",
+    "1337",
+    "2024",
+    "42",
+    "7",
+    "99"
+  ]
+}

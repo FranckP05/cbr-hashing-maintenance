@@ -1,0 +1,56 @@
+{
+  "notebook": "NB07",
+  "run_dir": "/kaggle/working/20260811_183845",
+  "completed_at": "2026-08-12T03:34:23",
+  "protocol": {
+    "retention_percentile": 25,
+    "retention_threshold_sample": 2000,
+    "cond_subample": 10000,
+    "cond_rates": [
+      0.2,
+      0.5
+    ],
+    "cond_strategies": [
+      "random",
+      "cbm",
+      "bucket",
+      "cnn"
+    ],
+    "bucket_num_bits": {
+      "heart": 6,
+      "diabetes130": 11,
+      "chestxray14": 11
+    },
+    "seeds": [
+      42,
+      7,
+      123,
+      2024,
+      99,
+      1337
+    ],
+    "lsh_params": "config.benchmark.LSH_PARAMS_BY_DATASET (valid\u00e9s exp1)"
+  },
+  "retention_rows": 18,
+  "condensation_rows": 162,
+  "datasets_done": [
+    "chestxray14",
+    "diabetes130",
+    "heart"
+  ],
+  "strategies_done": [
+    "bucket",
+    "cbm",
+    "cnn",
+    "random",
+    "raw"
+  ],
+  "seeds_done": [
+    "123",
+    "1337",
+    "2024",
+    "42",
+    "7",
+    "99"
+  ]
+}

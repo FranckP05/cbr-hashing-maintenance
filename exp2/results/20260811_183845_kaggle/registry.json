@@ -1,0 +1,40 @@
+{
+  "run_id": "20260811_183845_kaggle",
+  "run_type": "kaggle_full",
+  "notebooks": {
+    "NB03": {
+      "kernel": "franckyoteu/nb03-benchmark-index-seuls",
+      "kaggle_run_id": "20260811_183916",
+      "outputs": [
+        "benchmark_timing_quality.csv",
+        "benchmark_memory.csv",
+        "lsh_calibration.csv",
+        "nb03_summary.json"
+      ]
+    },
+    "NB05": {
+      "kernel": "franckyoteu/nb05-scaling",
+      "kaggle_run_id": "20260811_183844",
+      "outputs": [
+        "scaling_timing_quality.csv",
+        "nb05_summary.json"
+      ]
+    },
+    "NB07": {
+      "kernel": "franckyoteu/nb07-maintenance",
+      "kaggle_run_id": "20260811_183845",
+      "outputs": [
+        "retention_agreement.csv",
+        "condensation_quality.csv",
+        "nb07_summary.json"
+      ]
+    }
+  },
+  "datasets_kaggle": [
+    "franckyoteu/hecbr-exp2-code",
+    "franckyoteu/heart-disease",
+    "franckyoteu/diabetes130",
+    "franckyoteu/chestxray14-embeddings",
+    "franckyoteu/hecbr-diabetes130-codes"
+  ]
+}

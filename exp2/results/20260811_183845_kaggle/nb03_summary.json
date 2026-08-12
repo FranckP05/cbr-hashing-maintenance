@@ -1,0 +1,64 @@
+{
+  "notebook": "NB03",
+  "run_dir": "/kaggle/working/20260811_183916",
+  "completed_at": "2026-08-11T23:00:47",
+  "protocol": {
+    "n_queries_by_dataset": {
+      "heart": 60,
+      "diabetes130": 500,
+      "chestxray14": 300
+    },
+    "query_warmup": 1,
+    "query_repetitions": 3,
+    "seeds": [
+      42,
+      7,
+      123,
+      2024,
+      99,
+      1337
+    ],
+    "k_values": [
+      1,
+      5,
+      10
+    ],
+    "lsh_params_chosen": {
+      "heart": {
+        "num_bits": 3,
+        "num_tables": 8
+      },
+      "diabetes130": {
+        "num_bits": 8,
+        "num_tables": 16
+      },
+      "chestxray14": {
+        "num_bits": 10,
+        "num_tables": 8
+      }
+    },
+    "hecbr_codes": "/kaggle/input/datasets/franckyoteu/hecbr-diabetes130-codes/hecbr_diabetes130_codes_final.parquet"
+  },
+  "result_rows": 165,
+  "memory_rows": 10,
+  "datasets_done": [
+    "chestxray14",
+    "diabetes130",
+    "heart"
+  ],
+  "methods_done": [
+    "hecbr",
+    "kdtree",
+    "linear",
+    "lsh"
+  ],
+  "seeds_done": [
+    "123",
+    "1337",
+    "2024",
+    "42",
+    "7",
+    "99",
+    "fixed"
+  ]
+}
