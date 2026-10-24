@@ -1,10 +1,63 @@
-venv/
-data/
-results/
-kaggle/
+# Python
 __pycache__/
-*.pyc
-.ipynb_checkpoints/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# Testing
 .pytest_cache/
-tools/webdriver/
-docs/plan_experimentation_reproductible.md
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Session/debug traces (agent sessions)
+session-*.md
+*-session*.md
+
+# Results - can be large; exclude from export if not needed
+# But keep structure if small; better to be selective
+# exp*/results/*.log already covered
+
+# Kaggle staging (internal)
+kaggle/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Temporary
+*.tmp
+*.bak
+.tmp/
+
+# Large artifacts not needed for code sharing
+*.npz
+*.h5
+*.pkl
+*.ckpt
+
+# PDFs at root (if not essential)
+# Keep specific ones if needed, but exclude bulk
