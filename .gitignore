@@ -36,10 +36,6 @@ logs/
 session-*.md
 *-session*.md
 
-# Results - can be large; exclude from export if not needed
-# But keep structure if small; better to be selective
-# exp*/results/*.log already covered
-
 # Kaggle staging (internal)
 kaggle/
 
@@ -60,15 +56,9 @@ dist/
 *.ckpt
 *.pt
 *.pth
-*.parquet
 
-# Datasets (large; see README for Kaggle download instructions)
-data/
-
-# Large intermediate results / caches (kept locally, not exported)
+# Large datasets/processed artifacts (get from Kaggle)
+data/processed/
+data/raw/diabetes_130/
 lsh_camelyon/results/raw/
 exp1/results/benchmarks/*per_query.csv
-kaggle_raw/
-
-# PDFs at root (if not essential)
-# Keep specific ones if needed, but exclude bulk
