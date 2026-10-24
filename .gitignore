@@ -58,6 +58,17 @@ dist/
 *.h5
 *.pkl
 *.ckpt
+*.pt
+*.pth
+*.parquet
+
+# Datasets (large; see README for Kaggle download instructions)
+data/
+
+# Large intermediate results / caches (kept locally, not exported)
+lsh_camelyon/results/raw/
+exp1/results/benchmarks/*per_query.csv
+kaggle_raw/
 
 # PDFs at root (if not essential)
 # Keep specific ones if needed, but exclude bulk
