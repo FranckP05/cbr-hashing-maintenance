@@ -1,0 +1,4 @@
+# Configurations
+
+Configurations partagées.
+
