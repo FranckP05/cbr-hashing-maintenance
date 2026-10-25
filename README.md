@@ -25,7 +25,7 @@ L'objectif est donc d'agir à la fois sur les deux goulots d'étranglement :
 | `hecbr_sota_camelyon/` | Variante HeCBR sur Camelyon. |
 | `demo/` | Démo Flask s'appuyant sur `exp2/src/`. |
 | `draft/` | Protocole expérimental détaillé. |
-| `docs/` | Documentation annexe. |
+| `docs/` | Documentation (uniquement `demo.md`). |
 | `chapter3/` | Résultats agrégés sous forme de tableaux (`RESULTATS_*.md`), figures et éléments du chapitre 3. |
 | `tools/` | Outils annexes (génération de notebooks, staging Kaggle, etc.). |
 | `data/` | Données locales (certaines données volumineuses sont exclues ; voir section Kaggle). |
