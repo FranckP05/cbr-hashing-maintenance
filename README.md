@@ -8,7 +8,7 @@ Jusqu'ici, l'indexation par hachage et la maintenance de la base de cas sont tra
 
 Concrètement, les collisions dans les tables de hachage, ainsi que le regroupement dans des sphères de Hamming, permettent d'identifier des cas redondants, de décider de la rétention en flux (*streaming retention*) ou de condenser la base (*bucket condensation*), sans avoir à calculer systématiquement toutes les paires de distances en espace continu.
 
-L'objectif est donc d'agir à la fois sur les deux goulots d'étranglement : 
+L'objectif est donc d'agir à la fois sur les deux goulots d'étranglement :
 
 - **Recherche en haute dimension** : réduire le temps de recherche et l'empreinte mémoire face au balayage linéaire.
 - **Croissance de la base** : limiter l'accumulation de cas redondants tout en préservant la compétence du système CBR.
@@ -17,6 +17,7 @@ L'objectif est donc d'agir à la fois sur les deux goulots d'étranglement :
 
 | Dossier | Description |
 | --- | --- |
+| `exp1/` | Expérimentations préliminaires et premières validations. |
 | `exp2/` | Expérience principale. Compare LinearScan, KD-Tree, LSH et HeCBR. Étudie le scaling, la maintenance (rétention/condensation) et la dimensionnalité. C'est le cœur de l'étude couplée. |
 | `exp_lsh/` | Étude avec E2LSH à distributions p-stables et SimHash (branche L2). |
 | `exp_falconn/` | Étude avec Cross-Polytope LSH sur l'espace normalisé / distance cosinus. |
@@ -24,9 +25,12 @@ L'objectif est donc d'agir à la fois sur les deux goulots d'étranglement :
 | `hecbr_sota_camelyon/` | Variante HeCBR sur Camelyon. |
 | `demo/` | Démo Flask s'appuyant sur `exp2/src/`. |
 | `draft/` | Protocole expérimental détaillé. |
-| `paper/` | Article LaTeX, versions PDF, figures et éléments associés. |
+| `docs/` | Documentation annexe. |
 | `chapter3/` | Résultats agrégés sous forme de tableaux (`RESULTATS_*.md`), figures et éléments du chapitre 3. |
 | `tools/` | Outils annexes (génération de notebooks, staging Kaggle, etc.). |
+| `data/` | Données locales (certaines données volumineuses sont exclues ; voir section Kaggle). |
+| `configs/` | Configurations partagées. |
+| `notebooks/` | Notebooks partagés. |
 
 ## Jeux de données
 
@@ -56,4 +60,4 @@ Les expérimentations couvrent des jeux de dimensions et de tailles variées : *
 
 ## Kaggle
 
-Sur Kaggle, les jeux de données sont montés sous `/kaggle/input/`. La résolution des chemins est gérée par `exp2/config/paths.py` (local vs Kaggle). Le staging des *datasets/kernels* se fait via les scripts dans `tools/`. Les données brutes ne sont pas nécessairement présentes dans ce dépôt, elles proviennent des jeux attachés aux kernels lors des exécutions Kaggle.
+Sur Kaggle, les jeux de données sont montés sous `/kaggle/input/`. La résolution des chemins est gérée par `exp2/config/paths.py` (local vs Kaggle). Le staging des *datasets/kernels* se fait via les scripts dans `tools/`. Les données brutes volumineuses ne sont pas nécessairement présentes dans ce dépôt, elles proviennent des jeux attachés aux kernels lors des exécutions Kaggle.
