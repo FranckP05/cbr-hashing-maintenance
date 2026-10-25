@@ -25,10 +25,8 @@ L'objectif est donc d'agir à la fois sur les deux goulots d'étranglement :
 | `hecbr_sota_camelyon/` | Variante HeCBR sur Camelyon. |
 | `demo/` | Démo Flask s'appuyant sur `exp2/src/`. |
 | `draft/` | Protocole expérimental détaillé. |
-| `docs/` | Documentation (uniquement `demo.md`). |
-| `chapter3/` | Résultats agrégés sous forme de tableaux (`RESULTATS_*.md`), figures et éléments du chapitre 3. |
+| `docs/` | Documentation (`demo.md`). |
 | `tools/` | Outils annexes (génération de notebooks, staging Kaggle, etc.). |
-| `data/` | Données locales (certaines données volumineuses sont exclues ; voir section Kaggle). |
 | `configs/` | Configurations partagées. |
 | `notebooks/` | Notebooks partagés. |
 
@@ -56,8 +54,7 @@ Les expérimentations couvrent des jeux de dimensions et de tailles variées : *
 | `exp2/results/kaggle_raw/` | Résultats bruts issus des kernels Kaggle. |
 | `exp_lsh/results/` | Résultats E2LSH/SimHash. |
 | `exp_falconn/results/` | Résultats Cross-Polytope LSH. |
-| `chapter3/RESULTATS_*.md` | Synthèses tabulaires générées directement à partir des CSV. |
 
 ## Kaggle
 
-Sur Kaggle, les jeux de données sont montés sous `/kaggle/input/`. La résolution des chemins est gérée par `exp2/config/paths.py` (local vs Kaggle). Le staging des *datasets/kernels* se fait via les scripts dans `tools/`. Les données brutes volumineuses ne sont pas nécessairement présentes dans ce dépôt, elles proviennent des jeux attachés aux kernels lors des exécutions Kaggle.
+Sur Kaggle, les jeux de données sont montés sous `/kaggle/input/`. La résolution des chemins est gérée par `exp2/config/paths.py` (local vs Kaggle). Le staging des *datasets/kernels* se fait via les scripts dans `tools/`. Certaines données volumineuses ne sont pas présentes dans ce dépôt.
