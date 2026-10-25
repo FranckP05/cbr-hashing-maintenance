@@ -35,6 +35,12 @@ logs/
 # Session/debug traces (agent sessions)
 session-*.md
 *-session*.md
+DECISIONS_AND_RESULTS.md
+**/DECISIONS_AND_RESULTS.md
+**/AGENT_INSTRUCTIONS.md
+**/PROMPT_AGENT_EXTERNE.md
+**/PROGRESS.md
+**/REPORT_*.md
 
 # Kaggle staging (internal)
 kaggle/
@@ -62,3 +68,7 @@ data/processed/
 data/raw/diabetes_130/
 lsh_camelyon/results/raw/
 exp1/results/benchmarks/*per_query.csv
+
+# Docs - keep only demo.md
+docs/
+!docs/demo.md
