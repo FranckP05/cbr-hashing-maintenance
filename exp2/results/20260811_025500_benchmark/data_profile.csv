@@ -1,0 +1,4 @@
+dataset,label,n,n_train,n_test,d,type,scaling,pos_ratio_train
+heart,Heart Disease (Cleveland),297,237,60,13,"Tabulaire, 13 attributs cliniques, ~46 % positifs",standard,0.4599
+diabetes130,Diabetes 130-US,101766,81412,20354,390,"Mixte, 8 numériques + one-hot (dim finale 390), 11,2 % positifs",standard+onehot,0.1116
+chestxray14,ChestX-ray14 (embeddings DenseNet121),112120,89696,22424,1024,"Multimodal, embeddings 1024-D, 46,2 % positifs",none,0.4616

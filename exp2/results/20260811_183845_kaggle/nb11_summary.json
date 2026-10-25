@@ -1,0 +1,16 @@
+{
+  "notebook": "NB11",
+  "run_dir": "/home/customizer/Downloads/Research/Hashing/code/exp2/results/20260811_183845_kaggle",
+  "completed_at": "2026-08-13T03:46:39",
+  "tasks": {
+    "T5.1": "significance_tests.csv",
+    "T5.2": "FIG-R10_matrice_significativite.png"
+  },
+  "test_rows": 144,
+  "sig_pairs_agg_005": 16,
+  "method_pairs": [
+    "linear-vs-kdtree",
+    "linear-vs-lsh",
+    "kdtree-vs-lsh"
+  ]
+}

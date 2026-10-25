@@ -1,0 +1,43 @@
+{
+  "experiment": "exp2",
+  "plan_doc": "docs/plan_experimentation_reproductible.md",
+  "env": "local",
+  "created": "2026-08-11T02:52:11",
+  "seeds": [
+    42,
+    7,
+    123,
+    2024,
+    99
+  ],
+  "sampling_seed": 1337,
+  "test_fraction": 0.2,
+  "k_values": [
+    1,
+    5,
+    10
+  ],
+  "datasets": {
+    "heart": {
+      "label": "Heart Disease (Cleveland)",
+      "description": "Tabulaire, 13 attributs cliniques, ~46 % positifs",
+      "scaling": "standard",
+      "n_features": 13,
+      "source": "data/raw/heart_disease/processed.cleveland.data"
+    },
+    "diabetes130": {
+      "label": "Diabetes 130-US",
+      "description": "Mixte, 8 num\u00e9riques + one-hot (dim finale 390), 11,2 % positifs",
+      "scaling": "standard+onehot",
+      "n_features": 390,
+      "source": "data/raw/diabetes_130/diabetic_data.csv"
+    },
+    "chestxray14": {
+      "label": "ChestX-ray14 (embeddings DenseNet121)",
+      "description": "Multimodal, embeddings 1024-D, 46,2 % positifs",
+      "scaling": "none",
+      "n_features": 1024,
+      "source": "data/processed"
+    }
+  }
+}

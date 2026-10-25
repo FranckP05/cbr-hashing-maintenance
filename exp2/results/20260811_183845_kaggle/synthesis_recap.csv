@@ -1,0 +1,14 @@
+dataset,method,kind,macro_f1,exact_recall_at_k,query_ms,build_ms,note
+heart,kdtree,index_seul,0.8019,1.0,0.0724,0.3425,
+heart,linear,index_seul,0.8019,1.0,0.0224,0.0012,
+heart,lsh,index_seul,0.7981,0.9868,0.1317,0.5817,
+diabetes130,hecbr,index_seul,0.5105,,9.1604,44.1563,
+diabetes130,kdtree,index_seul,0.5103,0.9997,65.4788,5907.5268,
+diabetes130,linear,index_seul,0.5103,1.0,30.9453,0.0009,
+diabetes130,lsh,index_seul,0.511,0.9798,60.7071,2360.2427,
+chestxray14,kdtree,index_seul,0.6677,1.0,93.6684,26075.1954,
+chestxray14,linear,index_seul,0.6677,1.0,67.7958,0.0012,
+chestxray14,lsh,index_seul,0.6703,0.9744,132.2345,3668.0883,
+heart,maint.bucket,maintenance,0.7874,,0.0183,,taux 0.5 (moyenne 6 seeds)
+diabetes130,maint.random,maintenance,0.5199,,1.397,,taux 0.5 (moyenne 6 seeds)
+chestxray14,maint.random,maintenance,0.6185,,3.7002,,taux 0.5 (moyenne 6 seeds)

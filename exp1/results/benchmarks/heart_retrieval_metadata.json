@@ -1,0 +1,24 @@
+{
+  "dataset": "UCI Heart Disease (Cleveland)",
+  "instances_after_missing_value_removal": 297,
+  "features": 13,
+  "seeds": [
+    42,
+    7,
+    123,
+    2024,
+    99
+  ],
+  "k_values": [
+    1,
+    5,
+    10
+  ],
+  "split": "80/20 stratified train/test; scaler fitted on each training split only",
+  "lsh": {
+    "num_tables": 16,
+    "num_bits": 5,
+    "random_seed": 42
+  },
+  "note": "Small-dataset validation only; not a scaling benchmark."
+}

@@ -1,0 +1,327 @@
+<!-- Étape 4 — résultats live (fond violet clair) -->
+<section class="step-panel bg-purple">
+
+  <div class="step-number violet">4</div>
+  <p class="step-question">Les résultats obtenus par les modèles pour le cas suivant sont</p>
+
+  {# ─── Données brutes renvoyées par le backend ─── #}
+  {% set lin  = results.get("linear", {}) %}
+  {% set kd   = results.get("kdtree", {}) %}
+  {% set lsh  = results.get("lsh", {}) %}
+  {% set hcbr = results.get("hecbr", {}) %}
+
+  {# Formatage lisible du temps #}
+  {% macro fmt_t(ms) %}
+    {%- if ms is none -%}—
+    {%- elif ms >= 1000 -%}{{ "%.2f"|format(ms/1000) }} s
+    {%- elif ms >= 1 -%}{{ "%.2f"|format(ms) }} ms
+    {%- else -%}{{ "%.0f"|format(ms*1000) }} µs
+    {%- endif -%}
+  {% endmacro %}
+
+  <!-- ── Disposition 2 colonnes : labels gauche / graphique Chart.js droite ── -->
+  <div class="results-section">
+
+    <!-- Colonne gauche : Classification Result + liste textuelle -->
+    <div class="results-left">
+      <h3>Classification Result</h3>
+
+      {% if lsh and not lsh.get("error") and lsh.get("query_time_ms") is not none %}
+      <div class="result-label">Hachage (LSH) : {{ fmt_t(lsh.get("query_time_ms")) }}</div>
+      {% endif %}
+
+      {% if kd and not kd.get("error") and kd.get("query_time_ms") is not none %}
+      <div class="result-label">K-D Tree : {{ fmt_t(kd.get("query_time_ms")) }}</div>
+      {% endif %}
+
+      {% if hcbr and not hcbr.get("error") and hcbr.get("query_time_ms") is not none %}
+      <div class="result-label">HeCBR (Hamming) : {{ fmt_t(hcbr.get("query_time_ms")) }}</div>
+      {% endif %}
+
+      {% if lin and not lin.get("error") and lin.get("query_time_ms") is not none %}
+      <div class="result-label">Balayage linéaire : {{ fmt_t(lin.get("query_time_ms")) }}</div>
+      {% endif %}
+    </div>
+
+    <!-- Colonne droite : Graphique Barres horizontales via Chart.js -->
+    <div class="chart-container">
+      <canvas id="benchmarkChart"></canvas>
+    </div>
+  </div>
+
+  <!-- ── Détails par méthode (badges accord, rétention, etc.) ── -->
+  <div class="method-detail-cards">
+
+    {% macro method_badges(m, r) %}
+      {% if r.get("nearest_distance") is not none %}
+        <span class="badge badge-neutral">dist 1-NN : {{ "%.4f"|format(r["nearest_distance"]) }}</span>
+      {% endif %}
+      {% if r.get("redundant") is not none %}
+        {% if r["redundant"] %}
+          <span class="badge badge-warn">redondant (distance &lt; θ)</span>
+        {% else %}
+          <span class="badge badge-ok">nouveau cas retenu (distance ≥ θ)</span>
+        {% endif %}
+      {% endif %}
+      {% if r.get("agreement_with_reference") is not none and m != "linear" %}
+        {% set agr = r["agreement_with_reference"] %}
+        <span class="badge {{ 'badge-ok' if agr >= k else ('badge-warn' if agr >= k//2 else 'badge-err') }}">
+          {{ agr }}/{{ k }} voisins ≡ référence
+        </span>
+      {% endif %}
+      {% if r.get("index_frozen") %}
+        <span class="badge badge-indigo">index figé (codes pré-entraînés)</span>
+      {% endif %}
+      {% if r.get("error") %}
+        <span class="badge badge-err">{{ r["error"] }}</span>
+      {% endif %}
+    {% endmacro %}
+
+    {% if lsh %}
+    <div class="method-card">
+      <strong style="font-family:'Space Grotesk',sans-serif;font-size:.82rem;min-width:7rem">Hachage (LSH)</strong>
+      {{ method_badges("lsh", lsh) }}
+    </div>
+    {% endif %}
+
+    {% if kd %}
+    <div class="method-card">
+      <strong style="font-family:'Space Grotesk',sans-serif;font-size:.82rem;min-width:7rem">K-D Tree</strong>
+      {{ method_badges("kdtree", kd) }}
+    </div>
+    {% endif %}
+
+    {% if hcbr %}
+    <div class="method-card">
+      <strong style="font-family:'Space Grotesk',sans-serif;font-size:.82rem;min-width:7rem">HeCBR</strong>
+      {{ method_badges("hecbr", hcbr) }}
+    </div>
+    {% endif %}
+
+    {% if lin %}
+    <div class="method-card">
+      <strong style="font-family:'Space Grotesk',sans-serif;font-size:.82rem;min-width:7rem">Balayage linéaire</strong>
+      <span class="badge badge-neutral">référence déterministe</span>
+      {% if lin.get("redundant") is not none %}
+        {% if lin["redundant"] %}
+          <span class="badge badge-warn">redondant</span>
+        {% else %}
+          <span class="badge badge-ok">cas retenu</span>
+        {% endif %}
+      {% endif %}
+    </div>
+    {% endif %}
+
+  </div>
+
+  <!-- ── État de la base CBM ── -->
+  <div class="cbm-state">
+    <div>
+      <div class="cbm-stat-label">Base avant</div>
+      <div class="cbm-stat-value">{{ before }}</div>
+    </div>
+    <div>
+      <div class="cbm-stat-label">Décision CBM</div>
+      {% if results._after_added %}
+        <div class="cbm-stat-value cbm-decision-added">
+          <svg class="status-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="m8 12 2.5 2.5L16 9"></path></svg>
+          Cas ajouté
+        </div>
+      {% else %}
+        <div class="cbm-stat-value cbm-decision-skipped">
+          <svg class="status-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5"></path><path d="M4 17a8 8 0 0 0 13.4 2.3L20 12"></path></svg>
+          Redondant
+        </div>
+      {% endif %}
+    </div>
+    <div>
+      <div class="cbm-stat-label">Base après</div>
+      <div class="cbm-stat-value">{{ after }}</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ── Verdict centré (fond blanc) ── -->
+<div class="verdict">
+  {% if results._fastest %}
+    {% set fname = {"lsh":"le Hachage (LSH)","kdtree":"le K-D Tree","linear":"le Balayage linéaire","hecbr":"HeCBR (Hamming)"}[results._fastest] %}
+    Verdict : {{ fname }} produit le résultat attendu en {{ fmt_t(results[results._fastest]["query_time_ms"]) }}
+  {% else %}
+    Analyse terminée.
+  {% endif %}
+</div>
+
+<!-- ── Boutons relancer / autre cas ── -->
+<section class="step-panel bg-violet" style="padding-top:1.25rem;padding-bottom:1.75rem;">
+  <div class="mode-btns">
+    <button class="btn-black"
+            hx-post="/demo/analyze"
+            hx-target="#demo-dynamic"
+            hx-swap="innerHTML">
+      Relancer (même cas)
+    </button>
+    <button class="btn-outline"
+            hx-post="/demo/generate-case"
+            hx-vals='{"mode": "auto"}'
+            hx-target="#demo-dynamic"
+            hx-swap="innerHTML">
+      Autre cas
+    </button>
+    <button class="btn-outline"
+            hx-post="/demo/reset"
+            hx-target="#demo-dynamic"
+            hx-swap="innerHTML">
+      Réinitialiser la base
+    </button>
+  </div>
+</section>
+
+<!-- ── Script d'initialisation Chart.js (rendu proportionnel exact et impartial) ── -->
+<script>
+(function() {
+  function initChart() {
+    const canvas = document.getElementById('benchmarkChart');
+    if (!canvas || typeof Chart === 'undefined') return;
+
+    // Destruction de l'instance existante si présente
+    if (window._benchmarkChartInstance) {
+      window._benchmarkChartInstance.destroy();
+    }
+
+    function formatTime(ms) {
+      if (ms === null || ms === undefined) return '—';
+      if (ms >= 1000) return (ms / 1000).toFixed(2) + ' s';
+      if (ms >= 1) return ms.toFixed(2) + ' ms';
+      return (ms * 1000).toFixed(0) + ' µs';
+    }
+
+    const labels = [];
+    const data = [];
+    const colors = [];
+
+    {% if lsh and not lsh.get("error") and lsh.get("query_time_ms") is not none %}
+      labels.push('LSH');
+      data.push({{ lsh["query_time_ms"] }});
+      colors.push('#6D28D9');
+    {% endif %}
+
+    {% if kd and not kd.get("error") and kd.get("query_time_ms") is not none %}
+      labels.push('K-D Tree');
+      data.push({{ kd["query_time_ms"] }});
+      colors.push('#FACC15');
+    {% endif %}
+
+    {% if hcbr and not hcbr.get("error") and hcbr.get("query_time_ms") is not none %}
+      labels.push('HeCBR');
+      data.push({{ hcbr["query_time_ms"] }});
+      colors.push('#4338CA');
+    {% endif %}
+
+    {% if lin and not lin.get("error") and lin.get("query_time_ms") is not none %}
+      labels.push('Baseline // Balayage linéaire');
+      data.push({{ lin["query_time_ms"] }});
+      colors.push('#18181B');
+    {% endif %}
+
+    const plugins = [];
+    if (typeof ChartDataLabels !== 'undefined') {
+      plugins.push(ChartDataLabels);
+    }
+
+    window._benchmarkChartInstance = new Chart(canvas.getContext('2d'), {
+      type: 'bar',
+      plugins: plugins,
+      data: {
+        labels: labels,
+        datasets: [{
+          data: data,
+          backgroundColor: colors,
+          borderRadius: 4,
+          borderSkipped: false,
+          barPercentage: 0.75,
+          categoryPercentage: 0.85
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            right: 85,
+            top: 10,
+            bottom: 10
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#18181B',
+            titleFont: { family: 'Space Grotesk', size: 13 },
+            bodyFont: { family: 'Space Grotesk', size: 12 },
+            padding: 10,
+            callbacks: {
+              label: function(context) {
+                return ' ' + formatTime(context.raw);
+              }
+            }
+          },
+          datalabels: {
+            anchor: 'end',
+            align: 'right',
+            offset: 8,
+            color: '#18181B',
+            font: {
+              family: 'Space Grotesk',
+              weight: 'bold',
+              size: 12
+            },
+            formatter: function(value) {
+              return formatTime(value);
+            }
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)',
+              drawBorder: false
+            },
+            ticks: {
+              font: { family: 'Space Grotesk', size: 11 },
+              color: '#6B7280',
+              callback: function(val) {
+                return formatTime(val);
+              }
+            }
+          },
+          y: {
+            grid: { display: false, drawBorder: false },
+            ticks: {
+              font: { family: 'Space Grotesk', weight: '600', size: 12 },
+              color: '#18181B'
+            }
+          }
+        }
+      }
+    });
+  }
+
+  if (!window._benchmarkChartListenerAdded) {
+    window._benchmarkChartListenerAdded = true;
+    document.addEventListener('htmx:afterSwap', function(e) {
+      if (document.getElementById('benchmarkChart')) {
+        initChart();
+      }
+    });
+    document.addEventListener('htmx:beforeSwap', function(e) {
+      if (window._benchmarkChartInstance && document.getElementById('benchmarkChart')) {
+        window._benchmarkChartInstance.destroy();
+        window._benchmarkChartInstance = null;
+      }
+    });
+  }
+})();
+</script>

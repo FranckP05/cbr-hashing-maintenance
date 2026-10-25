@@ -1,0 +1,677 @@
+/* =============================================================
+   demo.css — Thème wireframe CBR·Hachage·Maintenance
+   Palette :
+     Violet   #6D28D9  — titre Demo, bouton Poursuivre, barre LSH, puces ②④
+     Jaune    #FACC15  — trait sous Demo, bouton Lancer, barre KD-Tree, puces ①③
+     Noir     #18181B  — cartes dimensionnalité, bouton Génération, barre Baseline, texte
+     Violet clair #EDE9FE — fond panels ②④ + guide étapes
+     Blanc    #FFFFFF  — fond page, fond panels ①③
+   Polices : Space Grotesk (titres, boutons, numéros) · Manrope (corps)
+============================================================= */
+
+/* ── Reset minimal ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Variables ── */
+:root {
+  --violet:      #6D28D9;
+  --violet-lt:   #EDE9FE;
+  --yellow:      #FACC15;
+  --black:       #18181B;
+  --white:       #FFFFFF;
+  --text:        #18181B;
+  --muted:       #6B7280;
+  --indigo:      #4338CA;   /* HeCBR */
+}
+
+/* ── Base ── */
+html { scroll-behavior: smooth; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+fieldset { border: 0; min-width: 0; }
+
+body {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--white);
+  min-height: 100vh;
+}
+
+/* ── Watermark TRIALMODE (décoratif, fond) ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1.6rem,
+    rgba(0,0,0,.028) 1.6rem,
+    rgba(0,0,0,.028) 1.62rem
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Watermark texte ── */
+.wm-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.wm-layer span {
+  position: absolute;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  color: rgba(0,0,0,.06);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* ── Wrapper principal ── */
+.page-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 64rem;     /* ~1024px, centré */
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 0;
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: flex-start;
+  padding-bottom: 2.5rem;
+}
+
+.hero-left {}
+
+/* Titre Demo */
+.hero-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 700;
+  color: var(--violet);
+  line-height: 1;
+  letter-spacing: -.03em;
+  margin-bottom: .5rem;
+}
+
+/* Trait ondulé jaune sous Demo */
+.hero-rule {
+  width: 8rem;
+  height: .4rem;
+  margin-bottom: 1.5rem;
+  background: none;
+  border: none;
+  position: relative;
+}
+.hero-rule::after {
+  content: '';
+  display: block;
+  width: 8rem;
+  height: .4rem;
+  background: var(--yellow);
+  border-radius: 9999px;
+  clip-path: polygon(0 30%, 8% 0%, 17% 60%, 25% 10%, 33% 70%, 42% 5%, 50% 65%, 58% 0%, 67% 60%, 75% 15%, 83% 65%, 92% 0%, 100% 40%, 100% 100%, 0 100%);
+}
+
+.hero-sub {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(.9rem, 1.8vw, 1rem);
+  color: var(--text);
+  max-width: 36rem;
+  line-height: 1.7;
+}
+
+/* Icônes doodle droite */
+.hero-icons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .75rem;
+  padding-top: .25rem;
+  flex-shrink: 0;
+}
+.hero-icons svg {
+  width: clamp(2rem, 5vw, 3.5rem);
+  height: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* ═══════════════════════════════════════════
+   GUIDE ÉTAPES (fond violet clair)
+═══════════════════════════════════════════ */
+.steps-guide {
+  background: var(--violet-lt);
+  padding: 2rem 2.5rem;
+  margin-bottom: 0;
+}
+
+.steps-guide-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: var(--text);
+}
+
+.step-list {
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+/* Puce numérotée */
+.step-badge {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid var(--yellow);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .875rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.step-badge.violet {
+  border-color: var(--violet);
+}
+
+.step-item p {
+  font-size: .9rem;
+  color: var(--text);
+  padding-top: .2rem;
+}
+.step-item p a, .step-item p .accent {
+  color: var(--violet);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ═══════════════════════════════════════════
+   PANELS NUMÉROTÉS (sections étapes)
+═══════════════════════════════════════════ */
+.step-panel {
+  padding: 2.5rem 2.5rem;
+  position: relative;
+}
+.step-panel.bg-violet { background: var(--white); }
+.step-panel.bg-purple { background: var(--violet-lt); }
+
+/* Numéro central de section */
+.step-number {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 2px solid var(--yellow);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 auto 1.25rem;
+}
+.step-number.violet { border-color: var(--violet); }
+
+.step-question {
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+/* ─── Étape 1 : Cartes dimensionnalité ─── */
+.dim-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.dim-card {
+  background: var(--black);
+  color: var(--white);
+  border-radius: .625rem;
+  padding: 1.25rem 1.1rem 1.1rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color .15s;
+  position: relative;
+}
+.dim-card:has(.dim-choice:checked) {
+  border-color: var(--violet);
+}
+.dim-card:has(.dim-choice:focus-visible) { outline: 3px solid rgba(109,40,217,.35); outline-offset: 3px; }
+.dim-choice { position: absolute; opacity: 0; inset: .75rem auto auto .75rem; }
+.dim-card h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .95rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: .85rem;
+  color: var(--white);
+}
+.dim-card ul {
+  list-style: disc;
+  padding-left: 1rem;
+  font-size: .8rem;
+  color: rgba(255,255,255,.85);
+  line-height: 1.7;
+}
+
+/* Bouton Poursuivre — centré unique sous les 3 cartes */
+.btn-poursuivre {
+  display: block;
+  width: 16rem;
+  margin: 0 auto;
+  padding: .85rem 0;
+  background: var(--violet);
+  color: var(--white);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  border-radius: .5rem;
+  cursor: pointer;
+  transition: filter .15s;
+}
+.btn-poursuivre:hover { filter: brightness(1.1); }
+.btn-poursuivre:disabled { opacity: .55; cursor: not-allowed; }
+
+/* ─── Étape 2 : Boutons mode cas ─── */
+.mode-btns {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.btn-black {
+  padding: .75rem 2rem;
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: .5rem;
+  cursor: pointer;
+  transition: filter .15s;
+}
+.btn-black:hover { filter: brightness(1.2); }
+
+.btn-outline {
+  padding: .75rem 2rem;
+  background: var(--white);
+  color: var(--black);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .95rem;
+  font-weight: 600;
+  border: 2px solid var(--black);
+  border-radius: .5rem;
+  cursor: pointer;
+  transition: background .15s;
+}
+.btn-outline:hover { background: #f4f4f5; }
+
+/* ─── Étape 3 : Bouton Lancer l'analyse ─── */
+.btn-lancer {
+  display: block;
+  width: 22rem;
+  margin: 0 auto;
+  padding: 1rem 0;
+  background: var(--yellow);
+  color: var(--black);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: center;
+  border: none;
+  border-radius: .5rem;
+  cursor: pointer;
+  transition: filter .15s;
+  box-shadow: 8px 0 0 var(--violet);
+}
+.btn-lancer:hover { filter: brightness(1.08); }
+
+/* ─── Étape 4 : Résultats ─── */
+.results-section {
+  display: grid;
+  grid-template-columns: 14rem 1fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.results-left h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+
+.result-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: .875rem;
+  color: var(--text);
+  padding: .45rem 0;
+  border-bottom: 1px solid rgba(0,0,0,.07);
+}
+.result-label:last-child { border-bottom: none; }
+
+/* Conteneur Graphique Chart.js */
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(109, 40, 217, 0.1);
+  overflow: hidden;
+}
+.chart-container canvas { display: block; }
+.chart-fallback {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 1rem;
+  color: var(--muted);
+  font-size: .875rem;
+  text-align: center;
+}
+.chart-fallback[hidden] { display: none; }
+.chart-unavailable canvas { display: none; }
+
+/* Verdict */
+.verdict {
+  text-align: center;
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  padding: 1.5rem 2.5rem 2rem;
+  background: var(--white);
+}
+
+/* ─── Formulaire saisie manuelle ─── */
+.manual-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: .75rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-field label {
+  display: block;
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: .25rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.form-field input {
+  width: 100%;
+  border: 1px solid #D1D5DB;
+  border-radius: .375rem;
+  padding: .5rem .625rem;
+  font-size: .875rem;
+  font-family: 'Manrope', sans-serif;
+  color: var(--text);
+  background: var(--white);
+  transition: border-color .15s;
+}
+.form-field input:focus {
+  outline: none;
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px rgba(109,40,217,.15);
+}
+.form-field .field-error {
+  font-size: .7rem;
+  color: #DC2626;
+  margin-top: .2rem;
+}
+
+/* ─── Grille valeurs du cas ─── */
+.case-values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  gap: .5rem;
+  margin-bottom: 1.5rem;
+}
+.case-value-chip {
+  background: var(--white);
+  border: 1px solid #E5E7EB;
+  border-radius: .375rem;
+  padding: .4rem .625rem;
+  font-size: .8rem;
+}
+.case-value-chip .chip-label {
+  color: var(--muted);
+  font-size: .7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  display: block;
+}
+.case-value-chip .chip-val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ─── Panneau état base CBM ─── */
+.cbm-state {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  background: rgba(255,255,255,.7);
+  border-radius: .5rem;
+  padding: 1rem 1.25rem;
+  margin-top: 1.5rem;
+  border: 1px solid rgba(109,40,217,.2);
+}
+.cbm-stat-label {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.cbm-stat-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.cbm-decision-added   { color: #16A34A; }
+.cbm-decision-skipped { color: #CA8A04; }
+.status-icon {
+  width: 1.05em;
+  height: 1.05em;
+  margin-right: .25rem;
+  vertical-align: -.16em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ─── Comparaison maintenance sans JavaScript ─── */
+.maintenance-comparison {
+  max-width: 48rem;
+  margin: 0 auto 1.5rem;
+  padding: 1.25rem;
+  background: rgba(255,255,255,.7);
+  border: 1px solid rgba(109,40,217,.2);
+  border-radius: .5rem;
+}
+.maintenance-bar-row + .maintenance-bar-row { margin-top: 1rem; }
+.maintenance-bar-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .4rem;
+  font-size: .82rem;
+}
+.maintenance-bar-label strong { font-family: 'Space Grotesk', sans-serif; font-size: .8rem; }
+.maintenance-bar { display: block; width: 100%; height: 1rem; overflow: visible; }
+.maintenance-bar-track { fill: #E5E7EB; }
+.maintenance-bar-initial { fill: var(--black); }
+.maintenance-bar-condensed { fill: #16A34A; }
+.maintenance-stats { max-width: 48rem; margin: 0 auto 1.5rem; }
+.maintenance-summary {
+  display: flex;
+  align-items: flex-start;
+  gap: .35rem;
+  max-width: 40rem;
+  margin: 0 auto 1.25rem;
+  color: var(--muted);
+  font-size: .85rem;
+  line-height: 1.5;
+  text-align: left;
+}
+.maintenance-summary .status-icon { flex: 0 0 auto; margin-top: .12rem; }
+
+/* ─── Erreur de chargement des données ─── */
+.load-error {
+  max-width: 48rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid #F59E0B;
+  border-radius: .5rem;
+  background: #FFFBEB;
+  color: #78350F;
+}
+.load-error h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin-bottom: .5rem; }
+.load-error p + p { margin-top: .75rem; }
+.load-error pre { margin-top: .75rem; padding: .75rem; overflow-x: auto; background: rgba(255,255,255,.7); border-radius: .25rem; }
+.load-error-detail { font-size: .75rem; color: #92400E; overflow-wrap: anywhere; }
+
+/* ─── Spinner HTMX ─── */
+.htmx-indicator { display: none; }
+.htmx-request .htmx-indicator { display: inline-block; }
+.htmx-request.htmx-indicator  { display: inline-block; }
+
+.spinner {
+  display: inline-block;
+  width: .9rem; height: .9rem;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  vertical-align: -.15em;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── Détails méthode (cartes petites étape 4) ─── */
+.method-detail-cards {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  margin-top: 1.5rem;
+}
+.method-card {
+  background: rgba(255,255,255,.6);
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: .375rem;
+  padding: .625rem .875rem;
+  font-size: .8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  align-items: center;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: .15rem .55rem;
+  border-radius: 9999px;
+  font-size: .7rem;
+  font-weight: 700;
+}
+.badge-ok      { background: #DCFCE7; color: #15803D; }
+.badge-warn    { background: #FEF3C7; color: #92400E; }
+.badge-err     { background: #FEE2E2; color: #B91C1C; }
+.badge-neutral { background: #F3F4F6; color: #374151; }
+.badge-indigo  { background: #EEF2FF; color: var(--indigo); }
+
+/* ─── Footer ─── */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: .8rem;
+  color: var(--muted);
+  border-top: 1px solid #E5E7EB;
+  margin-top: 0;
+  background: var(--white);
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 48rem) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .hero-icons {
+    display: none;
+  }
+  .dim-cards {
+    grid-template-columns: 1fr;
+  }
+  .results-section {
+    grid-template-columns: 1fr;
+  }
+  .cbm-state {
+    grid-template-columns: 1fr 1fr;
+  }
+  .step-panel { padding: 1.75rem 1.25rem; }
+  .steps-guide { padding: 1.5rem 1.25rem; }
+  .btn-lancer { width: 100%; }
+  .btn-poursuivre { width: 100%; }
+}
+
+@media (max-width: 36rem) {
+  .dim-cards { grid-template-columns: 1fr; }
+  .cbm-state { grid-template-columns: 1fr; }
+  .maintenance-bar-label { flex-direction: column; gap: .15rem; }
+}

@@ -1,0 +1,35 @@
+{
+  "notebook": "NB02",
+  "run_dir": "/home/customizer/Downloads/Research/Hashing/code/exp2/results/20260811_032530",
+  "validated_at": "2026-08-11T15:15:37",
+  "classification": {
+    "acc_manual": true,
+    "macro_f1_manual": true,
+    "balanced_acc_manual": true,
+    "auc_finite": true,
+    "dwp_flat": true,
+    "dwp_weighted": true,
+    "ranking_precision_at_k": true,
+    "ranking_label_recall_at_k": true,
+    "ranking_map_at_k": true,
+    "ranking_ndcg_at_k": true,
+    "ranking_hit_at_k": true,
+    "ranking_mrr_at_k": true
+  },
+  "sklearn_cross_check": {
+    "acc": true,
+    "macro_f1": true,
+    "balanced_acc": true,
+    "auc": true
+  },
+  "retrieval_self_match": true,
+  "rank_sanity_samples": 50,
+  "timing": {
+    "build": 0.0005,
+    "query_k5": 0.0429
+  },
+  "memory": {
+    "index_peak_rss_kb": 0,
+    "query_tracemalloc_peak_kb": 10.37109375
+  }
+}

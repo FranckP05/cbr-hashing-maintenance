@@ -1,0 +1,4 @@
+dataset,label,n,n_raw_features,n_positifs,pos_ratio,missing_ratio
+heart,Heart Disease (Cleveland),297,14,137,0.4613,0.0
+diabetes130,Diabetes 130-US,101766,49,11357,0.1116,0.0
+chestxray14,ChestX-ray14 (embeddings DenseNet121),112120,1040,51759,0.4616,0.0

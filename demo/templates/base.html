@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo — CBR · Hachage · Maintenance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/demo.css') }}">
+  <script src="{{ url_for('static', filename='vendor/htmx-1.9.12.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/chart-4.5.1.umd.min.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/charts.js') }}"></script>
+</head>
+<body>
+
+{% block content %}{% endblock %}
+
+<footer>A Design from the Innovative Developer Group</footer>
+
+</body>
+</html>

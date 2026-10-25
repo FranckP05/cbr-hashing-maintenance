@@ -1,0 +1,5 @@
+config,lat_ms,candidates,recall_hamming
+scan exact,153.0,4416441,1.0
+MP L=8 m=24 r=2,19.56,134434,0.309
+MP L=12 m=24 r=3,100.5,251793,0.315
+MP L=16 m=24 r=3,138.7,275247,0.313

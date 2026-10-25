@@ -1,0 +1,23 @@
+{
+  "dataset": "heart_disease",
+  "instances_after_missing_value_removal": 297,
+  "seeds": [
+    42,
+    7,
+    123,
+    2024,
+    99
+  ],
+  "k_values": [
+    1,
+    5,
+    10
+  ],
+  "sample_fraction": 1.0,
+  "split": "80/20 stratified train/test; scaler fitted on each training split only",
+  "lsh": {
+    "num_tables": 16,
+    "num_bits": 5
+  },
+  "features": 13
+}

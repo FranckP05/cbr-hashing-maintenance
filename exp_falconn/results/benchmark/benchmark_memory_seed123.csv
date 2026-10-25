@@ -1,0 +1,17 @@
+dataset,base_size,split_seed,hash_seed,method,index_memory_bytes
+heart_disease,full,123,exact,linear,9828
+heart_disease,full,123,11,crosspolytope,42628
+heart_disease,full,123,29,crosspolytope,42628
+heart_disease,full,123,43,crosspolytope,42628
+chest_xray14,10000,123,exact,linear,40960000
+chest_xray14,10000,123,11,crosspolytope,42887680
+chest_xray14,10000,123,29,crosspolytope,42887680
+chest_xray14,10000,123,43,crosspolytope,42887680
+chest_xray14,50000,123,exact,linear,204800000
+chest_xray14,50000,123,11,crosspolytope,213127680
+chest_xray14,50000,123,29,crosspolytope,213127680
+chest_xray14,50000,123,43,crosspolytope,213127680
+chest_xray14,full,123,exact,linear,293912576
+chest_xray14,full,123,11,crosspolytope,305721216
+chest_xray14,full,123,29,crosspolytope,305721216
+chest_xray14,full,123,43,crosspolytope,305721216

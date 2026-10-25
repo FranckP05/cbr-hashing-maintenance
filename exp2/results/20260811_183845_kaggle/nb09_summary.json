@@ -1,0 +1,44 @@
+{
+  "notebook": "NB09",
+  "run_dir": "/home/customizer/Downloads/Research/Hashing/code/exp2/results/20260811_183845_kaggle",
+  "completed_at": "2026-08-13T03:52:35",
+  "protocol": {
+    "base_size": 10000,
+    "n_queries": 88,
+    "k": 10,
+    "recall_target": 0.99,
+    "tables_grid": [
+      8,
+      16,
+      32,
+      64
+    ],
+    "seed": 42
+  },
+  "chosen": {
+    "heart": {
+      "num_bits": 3,
+      "num_tables": 16,
+      "compartments": 128,
+      "mean_recall": 0.9967,
+      "mean_cand_fraction": 0.807,
+      "reached_target": true
+    },
+    "diabetes130": {
+      "num_bits": 8,
+      "num_tables": 32,
+      "compartments": 8192,
+      "mean_recall": 0.9983,
+      "mean_cand_fraction": 0.8282,
+      "reached_target": true
+    },
+    "chestxray14": {
+      "num_bits": 10,
+      "num_tables": 16,
+      "compartments": 16384,
+      "mean_recall": 0.99,
+      "mean_cand_fraction": 0.4411,
+      "reached_target": true
+    }
+  }
+}

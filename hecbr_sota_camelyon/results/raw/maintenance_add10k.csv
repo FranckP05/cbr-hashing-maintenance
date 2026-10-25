@@ -1,0 +1,3 @@
+methode,maj_cost_s,lat_before_ms,lat_after_ms,note
+Baseline (scan linéaire),0.93,87.5,79.6,"append trivial, mais requete O(N*d) et 87ms"
+HeCBR (data-dependent),3.74,5.5,5.4,encoder 0.17s + index 3.57s; requete 5.4ms stable

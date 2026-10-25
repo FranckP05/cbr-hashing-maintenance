@@ -1,0 +1,17 @@
+dataset,base_size,split_seed,hash_seed,method,mean_candidates,mean_cand_fraction,mean_buckets_visited
+heart_disease,full,42,exact,linear,189.0,1.0,1.0
+heart_disease,full,42,11,crosspolytope,71.18333333333334,0.37663139329806,20.0
+heart_disease,full,42,29,crosspolytope,71.35,0.37751322751322747,20.0
+heart_disease,full,42,43,crosspolytope,72.01666666666667,0.3810405643738977,20.0
+chest_xray14,10000,42,exact,linear,10000.0,1.0,1.0
+chest_xray14,10000,42,11,crosspolytope,2050.596666666667,0.20505966666666667,20.0
+chest_xray14,10000,42,29,crosspolytope,1631.4333333333334,0.16314333333333333,20.0
+chest_xray14,10000,42,43,crosspolytope,2217.713333333333,0.22177133333333332,20.0
+chest_xray14,50000,42,exact,linear,50000.0,1.0,1.0
+chest_xray14,50000,42,11,crosspolytope,10271.226666666667,0.20542453333333335,20.0
+chest_xray14,50000,42,29,crosspolytope,8129.416666666667,0.16258833333333333,20.0
+chest_xray14,50000,42,43,crosspolytope,11099.55,0.221991,20.0
+chest_xray14,full,42,exact,linear,71756.0,1.0,1.0
+chest_xray14,full,42,11,crosspolytope,20761.823333333334,0.28933919579315087,40.0
+chest_xray14,full,42,29,crosspolytope,15828.55,0.22058852221417025,40.0
+chest_xray14,full,42,43,crosspolytope,20530.146666666667,0.286110522697289,40.0

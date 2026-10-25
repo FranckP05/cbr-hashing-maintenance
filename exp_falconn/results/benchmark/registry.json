@@ -1,0 +1,15 @@
+{
+  "experiment": "exp_falconn",
+  "python_version": "3.12.3 (main, Mar  3 2026, 12:15:18) [GCC 13.3.0]",
+  "platform": "Linux-6.17.0-20-generic-x86_64-with-glibc2.39",
+  "cpu": "x86_64",
+  "numpy_version": "2.5.1",
+  "scipy_version": "1.18.0",
+  "sklearn_version": "1.9.0",
+  "omp_num_threads": "not set",
+  "openblas_num_threads": "not set",
+  "ram_gb": "n/a",
+  "execution": "Kaggle (5 parallel kernels, Python 3.12, CPU only)",
+  "artifacts": "results/benchmark/benchmark_{quality,timing,candidates,memory}_seed*.csv + linear_gt_*.npz + best_params_seed*.json",
+  "method": "CrossPolytope LSH (FALCONN-style, pure NumPy), cosine arm (L2-normalised)"
+}

@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="432.57 -1241.82 511.37 444.00" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg-circle {
+        mix-blend-mode: multiply;
+      }
+      .icon-path {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+
+  <!-- Arrière-plan : Formes circulaires pastel -->
+  <g id="background-ellipses">
+    <!-- Cercle Jaune (Haut Droit) -->
+    <ellipse cx="765.42" cy="-1083.82" rx="124" ry="128" fill="#FDE047" opacity="0.35" class="bg-circle" />
+    <!-- Cercle Gris (Bas Droit) -->
+    <ellipse cx="736.80" cy="-955.82" rx="124" ry="128" fill="#E5E7EB" opacity="0.4" class="bg-circle" />
+    <!-- Cercle Violet (Gauche) -->
+    <ellipse cx="612.81" cy="-1027.82" rx="124" ry="128" fill="#DDD6FE" opacity="0.45" class="bg-circle" />
+  </g>
+
+  <!-- Groupe d'icônes vectorielles -->
+  <g id="scientific-icons">
+    <!-- 1. Fiole d'Erlenmeyer (Noir) -->
+    <g transform="translate(462.57, -1119.72) rotate(342, 62.48, 62.48)">
+      <svg width="124.96" height="124.96" viewBox="0 0 24 24">
+        <path class="icon-path" stroke="#1E293B" stroke-width="2" d="M 10,2 v 7.527 a 2,2,0,0,1,-0.211,0.896 L 4.72,20.55 a 1,1,0,0,0,0.9,1.45 h 12.76 a 1,1,0,0,0,0.9,-1.45 l -5.069,-10.127 A 2,2,0,0,1,14,9.527 V 2" />
+        <path class="icon-path" stroke="#1E293B" stroke-width="2" d="M 8.5,2 h 7" />
+        <path class="icon-path" stroke="#1E293B" stroke-width="2" d="M 7,16 h 10" />
+      </svg>
+    </g>
+
+    <!-- 2. Télescope (Jaune) -->
+    <g transform="translate(602.05, -1180.87) rotate(339, 62.48, 62.48)">
+      <svg width="124.96" height="124.96" viewBox="0 0 24 24">
+        <path class="icon-path" stroke="#CA8A04" stroke-width="2" d="M 10.065,12.493 l -6.18,1.318 a 0.934,0.934,0,0,1,-1.108,-0.702 l -0.537,-2.15 a 1.07,1.07,0,0,1,0.691,-1.265 l 13.504,-4.44" />
+        <path class="icon-path" stroke="#CA8A04" stroke-width="2" d="M 13.56,11.747 l 4.332,-0.924" />
+        <path class="icon-path" stroke="#CA8A04" stroke-width="2" d="M 16,21 l -3.105,-6.21" />
+        <path class="icon-path" stroke="#CA8A04" stroke-width="2" d="M 16.485,5.94 a 2,2,0,0,1,1.455,-2.425 l 1.09,-0.272 a 1,1,0,0,1,1.212,0.727 l 1.515,6.06 a 1,1,0,0,1,-0.727,1.213 l -1.09,0.272 a 2,2,0,0,1,-2.425,-1.455 Z" />
+        <path class="icon-path" stroke="#CA8A04" stroke-width="2" d="M 6.158,8.633 l 1.114,4.456" />
+        <path class="icon-path" stroke="#CA8A04" stroke-width="2" d="M 8,21 l 3.105,-6.21" />
+        <circle cx="12" cy="13" r="2" fill="none" stroke="#CA8A04" stroke-width="2" />
+      </svg>
+    </g>
+
+    <!-- 3. Candlestick Chart (Violet) -->
+    <g transform="translate(788.98, -1133.21) rotate(2, 62.48, 62.48)">
+      <svg width="124.96" height="124.96" viewBox="0 0 24 24">
+        <path class="icon-path" stroke="#6D28D9" stroke-width="2" d="M 9,5 v 4" />
+        <rect x="7" y="9" width="4" height="6" rx="1" fill="none" stroke="#6D28D9" stroke-width="2" class="icon-path" />
+        <path class="icon-path" stroke="#6D28D9" stroke-width="2" d="M 9,15 v 2" />
+        <path class="icon-path" stroke="#6D28D9" stroke-width="2" d="M 17,3 v 2" />
+        <rect x="15" y="5" width="4" height="8" rx="1" fill="none" stroke="#6D28D9" stroke-width="2" class="icon-path" />
+        <path class="icon-path" stroke="#6D28D9" stroke-width="2" d="M 17,13 v 3" />
+        <path class="icon-path" stroke="#6D28D9" stroke-width="2" d="M 3,3 v 16 a 2,2,0,0,0,2,2 h 16" />
+      </svg>
+    </g>
+
+    <!-- 4. Shuffle / Flèches (Violet) -->
+    <g transform="translate(462.57, -965.55) rotate(344, 62.48, 62.48)">
+      <svg width="124.96" height="124.96" viewBox="0 0 24 24">
+        <path class="icon-path" stroke="#6D28D9" stroke-width="2" d="M 2,18 h 1.4 c 1.3,0 2.5,-0.6 3.3,-1.7 l 6.1,-8.6 c 0.7,-1.1 2,-1.7 3.3,-1.7 H 22" />
+        <path class="icon-path" stroke="#6D28D9" stroke-width="2" d="M 18,2 l 4,4 l -4,4" />
+        <path class="icon-path" stroke="#6D28D9" stroke-width="2" d="M 2,6 h 1.9 c 1.5,0 2.9,0.9 3.6,2.2" />
+        <path class="icon-path" stroke="#6D28D9" stroke-width="2" d="M 22,18 h -5.9 c -1.3,0 -2.6,-0.7 -3.3,-1.8 l -0.5,-0.8" />
+        <path class="icon-path" stroke="#6D28D9" stroke-width="2" d="M 18,14 l 4,4 l -4,4" />
+      </svg>
+    </g>
+
+    <!-- 5. ECG / Signal Rythme (Jaune) -->
+    <g transform="translate(638.00, -997.55)">
+      <svg width="124.96" height="124.96" viewBox="0 0 24 24">
+        <path class="icon-path" stroke="#CA8A04" stroke-width="2" d="M 22,12 h -2.48 a 2,2,0,0,0,-1.93,1.46 l -2.35,8.36 a 0.25,0.25,0,0,1,-0.48,0 L 9.24,2.18 a 0.25,0.25,0,0,0,-0.48,0 l -2.35,8.36 A 2,2,0,0,1,4.49,12 H 2" />
+      </svg>
+    </g>
+
+    <!-- 6. Loupe de Recherche (Noir) -->
+    <g transform="translate(786.23, -978.51)">
+      <svg width="124.96" height="124.96" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8" fill="none" stroke="#1E293B" stroke-width="2" class="icon-path" />
+        <path class="icon-path" stroke="#1E293B" stroke-width="2" d="M 21,21 l -4.3,-4.3" />
+      </svg>
+    </g>
+  </g>
+</svg>

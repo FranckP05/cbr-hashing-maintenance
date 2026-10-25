@@ -1,0 +1,31 @@
+<!-- Étape 2 — comment souhaitez-vous obtenir un nouveau cas? (fond violet clair) -->
+<section class="step-panel bg-purple">
+
+  <div class="step-number violet">2</div>
+  <p class="step-question">comment souhaitez-vous obtenir un nouveau cas?</p>
+
+  <div class="mode-btns">
+    <!-- Bouton noir plein : Génération automatique -->
+    <button class="btn-black"
+            hx-post="/demo/generate-case"
+            hx-vals='{"mode": "auto"}'
+            hx-target="#demo-dynamic"
+            hx-swap="innerHTML"
+            hx-indicator="#spinner-mode">
+      <span class="spinner htmx-indicator" id="spinner-mode"></span>
+      Génération automatique
+    </button>
+
+    <!-- Bouton outline : Entrer à la main (uniquement Heart) -->
+    {% if cfg["allow_manual_entry"] %}
+    <button class="btn-outline"
+            hx-post="/demo/generate-case"
+            hx-vals='{"mode": "manual"}'
+            hx-target="#demo-dynamic"
+            hx-swap="innerHTML">
+      Entrer à la main
+    </button>
+    {% endif %}
+  </div>
+
+</section>

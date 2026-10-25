@@ -1,0 +1,75 @@
+{
+  "protocol": "Exp LSH Medical CBR Retrieval",
+  "total_splits": 5,
+  "hash_seeds": [
+    11,
+    29,
+    43
+  ],
+  "outcomes": [
+    {
+      "dataset": "chest_xray14",
+      "base_size": "10000",
+      "method": "simhash",
+      "mean_recall@10": 0.9830444444444444,
+      "speedup": 0.13617200295590023,
+      "outcome": "Qualite preservee sans gain de temps"
+    },
+    {
+      "dataset": "chest_xray14",
+      "base_size": "10000",
+      "method": "e2lsh",
+      "mean_recall@10": 0.9852444444444444,
+      "speedup": 0.13688425359958095,
+      "outcome": "Qualite preservee sans gain de temps"
+    },
+    {
+      "dataset": "chest_xray14",
+      "base_size": "50000",
+      "method": "simhash",
+      "mean_recall@10": 0.963088888888889,
+      "speedup": 0.3416385989309319,
+      "outcome": "Qualite preservee sans gain de temps"
+    },
+    {
+      "dataset": "chest_xray14",
+      "base_size": "50000",
+      "method": "e2lsh",
+      "mean_recall@10": 0.9783777777777779,
+      "speedup": 0.23739828138392638,
+      "outcome": "Qualite preservee sans gain de temps"
+    },
+    {
+      "dataset": "chest_xray14",
+      "base_size": "full",
+      "method": "simhash",
+      "mean_recall@10": 0.9684888888888891,
+      "speedup": 0.31677090973517347,
+      "outcome": "Qualite preservee sans gain de temps"
+    },
+    {
+      "dataset": "chest_xray14",
+      "base_size": "full",
+      "method": "e2lsh",
+      "mean_recall@10": 0.9824222222222222,
+      "speedup": 0.22601683306827303,
+      "outcome": "Qualite preservee sans gain de temps"
+    },
+    {
+      "dataset": "heart_disease",
+      "base_size": "full",
+      "method": "simhash",
+      "mean_recall@10": 0.5314444444444444,
+      "speedup": 0.20932277538692892,
+      "outcome": "Echec global"
+    },
+    {
+      "dataset": "heart_disease",
+      "base_size": "full",
+      "method": "e2lsh",
+      "mean_recall@10": 0.005777777777777753,
+      "speedup": 0.8061435378030357,
+      "outcome": "Echec global"
+    }
+  ]
+}

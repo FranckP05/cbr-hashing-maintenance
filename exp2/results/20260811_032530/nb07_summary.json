@@ -1,0 +1,51 @@
+{
+  "notebook": "NB07",
+  "run_dir": "/home/customizer/Downloads/Research/Hashing/code/exp2/results/20260811_032530",
+  "completed_at": "2026-08-11T18:10:57",
+  "protocol": {
+    "retention_percentile": 25,
+    "retention_threshold_sample": 2000,
+    "cond_subample": 10000,
+    "cond_rates": [
+      0.2,
+      0.5
+    ],
+    "cond_strategies": [
+      "random",
+      "cbm",
+      "bucket",
+      "cnn"
+    ],
+    "bucket_num_bits": {
+      "heart": 6,
+      "diabetes130": 11,
+      "chestxray14": 11
+    },
+    "seeds": [
+      42,
+      7,
+      123,
+      2024,
+      99,
+      1337
+    ],
+    "lsh_params": "config.benchmark.LSH_PARAMS_BY_DATASET (valid\u00e9s exp1)"
+  },
+  "retention_rows": 3,
+  "condensation_rows": 27,
+  "datasets_done": [
+    "chestxray14",
+    "diabetes130",
+    "heart"
+  ],
+  "strategies_done": [
+    "bucket",
+    "cbm",
+    "cnn",
+    "random",
+    "raw"
+  ],
+  "seeds_done": [
+    "42"
+  ]
+}

@@ -1,0 +1,4 @@
+dataset,n,n_train,n_test,d,dtype,pos_ratio_train
+heart,297,237,60,13,float32,0.4599
+diabetes130,101766,81412,20354,387,float32,0.1116
+chestxray14,112120,89696,22424,1024,float32,0.4616

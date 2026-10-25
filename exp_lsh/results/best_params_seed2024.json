@@ -1,0 +1,130 @@
+{
+  "heart_disease_full": {
+    "e2lsh": {
+      "dataset": "heart_disease",
+      "base_size": "full",
+      "split_seed": 2024,
+      "method": "e2lsh",
+      "w": 2.0,
+      "K": 6,
+      "L": 5,
+      "probes": 0,
+      "recall@10": 0.018750000000000003,
+      "macro_f1": 0.15019762845849802,
+      "f1_drop": 0.6079333839098024,
+      "median_latency_s": 2.9607499982375884e-05,
+      "mean_candidate_fraction": 0.0013227513227513227,
+      "passed": false
+    },
+    "simhash": {
+      "dataset": "heart_disease",
+      "base_size": "full",
+      "split_seed": 2024,
+      "method": "simhash",
+      "num_bits": 8,
+      "num_tables": 10,
+      "recall@10": 0.5187499999999999,
+      "macro_f1": 0.8257713248638838,
+      "f1_drop": -0.06764031249558333,
+      "median_latency_s": 0.00011599049997812472,
+      "mean_candidate_fraction": 0.09016754850088182,
+      "passed": false
+    }
+  },
+  "chest_xray14_10000": {
+    "e2lsh": {
+      "dataset": "chest_xray14",
+      "base_size": "10000",
+      "split_seed": 2024,
+      "method": "e2lsh",
+      "w": 4.0,
+      "K": 4,
+      "L": 20,
+      "probes": 0,
+      "recall@10": 0.9833333333333333,
+      "macro_f1": 0.6750745318728436,
+      "f1_drop": -0.00031958334203474603,
+      "median_latency_s": 0.012038204500015581,
+      "mean_candidate_fraction": 0.4444943333333333,
+      "passed": true
+    },
+    "simhash": {
+      "dataset": "chest_xray14",
+      "base_size": "10000",
+      "split_seed": 2024,
+      "method": "simhash",
+      "num_bits": 8,
+      "num_tables": 10,
+      "recall@10": 0.9836666666666667,
+      "macro_f1": 0.6750745318728436,
+      "f1_drop": -0.00031958334203474603,
+      "median_latency_s": 0.010935465499983366,
+      "mean_candidate_fraction": 0.4586443333333333,
+      "passed": true
+    }
+  },
+  "chest_xray14_50000": {
+    "e2lsh": {
+      "dataset": "chest_xray14",
+      "base_size": "50000",
+      "split_seed": 2024,
+      "method": "e2lsh",
+      "w": 4.0,
+      "K": 6,
+      "L": 20,
+      "probes": 2,
+      "recall@10": 0.9786666666666668,
+      "macro_f1": 0.67003367003367,
+      "f1_drop": -0.0031464236536073997,
+      "median_latency_s": 0.03825155750007525,
+      "mean_candidate_fraction": 0.22772446666666668,
+      "passed": true
+    },
+    "simhash": {
+      "dataset": "chest_xray14",
+      "base_size": "50000",
+      "split_seed": 2024,
+      "method": "simhash",
+      "num_bits": 16,
+      "num_tables": 20,
+      "recall@10": 0.9680000000000001,
+      "macro_f1": 0.6673051718923279,
+      "f1_drop": -0.0004179255122652714,
+      "median_latency_s": 0.023663264500100922,
+      "mean_candidate_fraction": 0.1761046666666667,
+      "passed": true
+    }
+  },
+  "chest_xray14_full": {
+    "e2lsh": {
+      "dataset": "chest_xray14",
+      "base_size": "full",
+      "split_seed": 2024,
+      "method": "e2lsh",
+      "w": 4.0,
+      "K": 6,
+      "L": 20,
+      "probes": 2,
+      "recall@10": 0.9816666666666667,
+      "macro_f1": 0.6916752312435765,
+      "f1_drop": 0.00028905447070914914,
+      "median_latency_s": 0.0706963414997972,
+      "mean_candidate_fraction": 0.22768776594756304,
+      "passed": true
+    },
+    "simhash": {
+      "dataset": "chest_xray14",
+      "base_size": "full",
+      "split_seed": 2024,
+      "method": "simhash",
+      "num_bits": 16,
+      "num_tables": 20,
+      "recall@10": 0.9743333333333332,
+      "macro_f1": 0.6846484165324745,
+      "f1_drop": 0.007315869181811152,
+      "median_latency_s": 0.038699397499840416,
+      "mean_candidate_fraction": 0.17628216920303993,
+      "passed": true
+    }
+  }
+}

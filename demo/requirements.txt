@@ -1,0 +1,7 @@
+# Démo CBR — dépendances (réutilise le venv du projet principal, pas de nouveau venv).
+flask==3.1.3
+# pandas, numpy et scikit-learn sont réutilisés depuis le projet principal.
+# Requis pour les embeddings ChestX-ray14 et les codes HeCBR (format Parquet).
+pyarrow
+# HTMX et Chart.js sont servis localement depuis static/vendor/ pour garantir une
+# démonstration fiable même sans accès réseau. Aucun framework JavaScript de build requis.

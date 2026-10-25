@@ -1,0 +1,39 @@
+<!-- Étape 2 (saisie manuelle) — formulaire Heart Disease (fond violet clair) -->
+<section class="step-panel bg-purple">
+
+  <div class="step-number violet">2</div>
+  <p class="step-question">remplissez les valeurs du cas :</p>
+
+  <form hx-post="/demo/submit-manual-case"
+        hx-target="#demo-dynamic"
+        hx-swap="innerHTML">
+
+    <div class="manual-form-grid">
+      {% for col in cfg["feature_columns"] %}
+      <div class="form-field">
+        <label for="f_{{ col }}">{{ col }}</label>
+        <input id="f_{{ col }}"
+               name="{{ col }}"
+               type="number" step="any" required
+               value="{{ prev_values.get(col, '') }}">
+        {% if errors.get(col) %}
+          <span class="field-error">{{ errors[col] }}</span>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="mode-btns">
+      <button type="submit" class="btn-black">Valider</button>
+      <button type="button" class="btn-outline"
+              hx-post="/demo/generate-case"
+              hx-vals='{"mode": "auto"}'
+              hx-target="#demo-dynamic"
+              hx-swap="innerHTML">
+        Annuler
+      </button>
+    </div>
+
+  </form>
+
+</section>

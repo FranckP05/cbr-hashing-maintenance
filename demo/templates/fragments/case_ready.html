@@ -1,0 +1,35 @@
+<!-- Étape 3 — cas prêt, affichage des valeurs + bouton Lancer l'analyse (fond blanc) -->
+<section class="step-panel bg-violet">
+
+  <div class="step-number">3</div>
+
+  <!-- Valeurs du cas (toujours affichées, qu'il soit auto ou manuel) -->
+  {% set vals = state.current_case_meta.get("values", {}) %}
+  {% if vals %}
+  <div class="case-values-grid">
+    {% for col, val in vals.items() %}
+    <div class="case-value-chip">
+      <span class="chip-label">{{ col }}</span>
+      <span class="chip-val">
+        {% if val is iterable and val is not string %}{{ val | join(', ') }}{% else %}{{ val }}{% endif %}
+      </span>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p style="text-align:center;color:var(--muted);font-size:.875rem;margin-bottom:1.5rem;">
+    Cas n°{{ state.current_case_meta.get("case_number","?") }} — {{ cfg["label"] }}
+  </p>
+  {% endif %}
+
+  <!-- Bouton Lancer l'analyse — jaune, large, centré -->
+  <button class="btn-lancer"
+          hx-post="/demo/analyze"
+          hx-target="#demo-dynamic"
+          hx-swap="innerHTML"
+          hx-indicator="#spinner-ana">
+    <span class="spinner htmx-indicator" id="spinner-ana"></span>
+    Lancer l'analyse
+  </button>
+
+</section>

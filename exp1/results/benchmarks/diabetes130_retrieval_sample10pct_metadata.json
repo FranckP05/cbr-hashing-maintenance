@@ -1,0 +1,23 @@
+{
+  "dataset": "diabetes130",
+  "instances_after_missing_value_removal": 101766,
+  "seeds": [
+    42,
+    7,
+    123,
+    2024,
+    99
+  ],
+  "k_values": [
+    1,
+    5,
+    10
+  ],
+  "sample_fraction": 0.1,
+  "split": "80/20 stratified train/test; scaler fitted on each training split only",
+  "lsh": {
+    "num_tables": 32,
+    "num_bits": 12
+  },
+  "features": 390
+}

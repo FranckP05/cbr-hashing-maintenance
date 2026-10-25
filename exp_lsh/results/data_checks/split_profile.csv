@@ -1,0 +1,11 @@
+dataset,split_seed,n_train,n_val,n_test,d,overlap_ok,nan_ok
+heart_disease,42,189,48,60,13,True,True
+heart_disease,7,189,48,60,13,True,True
+heart_disease,123,189,48,60,13,True,True
+heart_disease,2024,189,48,60,13,True,True
+heart_disease,99,189,48,60,13,True,True
+chest_xray14,42,71756,17940,300,1024,True,True
+chest_xray14,7,71756,17940,300,1024,True,True
+chest_xray14,123,71756,17940,300,1024,True,True
+chest_xray14,2024,71756,17940,300,1024,True,True
+chest_xray14,99,71756,17940,300,1024,True,True

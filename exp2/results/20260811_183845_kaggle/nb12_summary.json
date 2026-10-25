@@ -1,0 +1,125 @@
+{
+  "notebook": "NB12",
+  "run_dir": "/home/customizer/Downloads/Research/Hashing/code/exp2/results/20260811_183845_kaggle",
+  "completed_at": "2026-08-13T03:50:33",
+  "criteria_weights": {
+    "quality": 0.4,
+    "speed": 0.3,
+    "robustness": 0.15,
+    "fidelity": 0.15
+  },
+  "scores_by_dataset": {
+    "heart": {
+      "linear": {
+        "score": 0.8625111917581847,
+        "quality": 1.0,
+        "fidelity": 1.0,
+        "speed": 1.0,
+        "robustness": 0.0834,
+        "raw_quality": 0.8019,
+        "raw_fidelity": 1.0,
+        "raw_speed": 0.0224,
+        "raw_robust": 0.0327
+      },
+      "kdtree": {
+        "score": 0.6639604577540197,
+        "quality": 1.0,
+        "fidelity": 1.0,
+        "speed": 0.3382,
+        "robustness": 0.0834,
+        "raw_quality": 0.8019,
+        "raw_fidelity": 1.0,
+        "raw_speed": 0.0724,
+        "raw_robust": 0.0327
+      },
+      "lsh": {
+        "score": 0.0,
+        "quality": 0.0,
+        "fidelity": 0.0,
+        "speed": 0.0,
+        "robustness": 0.0,
+        "raw_quality": 0.7981,
+        "raw_fidelity": 0.9868,
+        "raw_speed": 0.1317,
+        "raw_robust": 0.0357
+      }
+    },
+    "diabetes130": {
+      "linear": {
+        "score": 0.44999999999999996,
+        "quality": 0.0,
+        "fidelity": 1.0,
+        "speed": 1.0,
+        "robustness": 0.0,
+        "raw_quality": 0.5103,
+        "raw_fidelity": 1.0,
+        "raw_speed": 30.9453,
+        "raw_robust": 0.0108
+      },
+      "kdtree": {
+        "score": 0.1477685950413234,
+        "quality": 0.0,
+        "fidelity": 0.9851,
+        "speed": 0.0,
+        "robustness": 0.0,
+        "raw_quality": 0.5103,
+        "raw_fidelity": 0.9997,
+        "raw_speed": 65.4788,
+        "raw_robust": 0.0108
+      },
+      "lsh": {
+        "score": 0.4491625870692126,
+        "quality": 1.0,
+        "fidelity": 0.0,
+        "speed": 0.101,
+        "robustness": 0.1258,
+        "raw_quality": 0.511,
+        "raw_fidelity": 0.9798,
+        "raw_speed": 60.7071,
+        "raw_robust": 0.0095
+      }
+    },
+    "chestxray14": {
+      "linear": {
+        "score": 0.45369241220888523,
+        "quality": 0.0,
+        "fidelity": 1.0,
+        "speed": 1.0,
+        "robustness": 0.0246,
+        "raw_quality": 0.6677,
+        "raw_fidelity": 1.0,
+        "raw_speed": 67.7958,
+        "raw_robust": 0.0238
+      },
+      "kdtree": {
+        "score": 0.30853214620649855,
+        "quality": 0.0,
+        "fidelity": 1.0,
+        "speed": 0.5161,
+        "robustness": 0.0246,
+        "raw_quality": 0.6677,
+        "raw_fidelity": 1.0,
+        "raw_speed": 93.6684,
+        "raw_robust": 0.0238
+      },
+      "lsh": {
+        "score": 0.4,
+        "quality": 1.0,
+        "fidelity": 0.0,
+        "speed": 0.0,
+        "robustness": 0.0,
+        "raw_quality": 0.6703,
+        "raw_fidelity": 0.9744,
+        "raw_speed": 132.2345,
+        "raw_robust": 0.0244
+      }
+    }
+  },
+  "mean_scores": {
+    "lsh": 0.2830541956897375,
+    "linear": 0.5887345346556899,
+    "kdtree": 0.3734203996672805
+  },
+  "winner_global": "linear",
+  "winner_on_chest": "linear"
+}

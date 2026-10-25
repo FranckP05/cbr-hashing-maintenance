@@ -1,0 +1,17 @@
+{
+  "experiment": "exp_falconn",
+  "method": "crosspolytope (FALCONN-style, patched NumPy)",
+  "arm": "cosine",
+  "outcomes": {
+    "chest_xray14_10000": "quality_ok_no_speedup",
+    "chest_xray14_50000": "quality_ok_no_speedup",
+    "chest_xray14_full": "quality_ok_no_speedup",
+    "heart_disease_full": "quality_ok_no_speedup"
+  },
+  "key_findings": [
+    "CP preserves quality on all 4 tasks (r10>=0.95, dF1<=0.01)",
+    "CP patched is still 3-11x slower than linear (constant overhead from dict+buckets+rerank)",
+    "The _D_all_query fix eliminated transposition overhead but structural bottleneck remains",
+    "Outcome for all tasks: quality_ok_no_speedup"
+  ]
+}

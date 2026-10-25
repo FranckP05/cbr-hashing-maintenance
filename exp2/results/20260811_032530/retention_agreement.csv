@@ -1,0 +1,4 @@
+dataset    , seed, n_stream, threshold         , retained_lsh, retained_exact, agreement, reduction_rate_lsh, reduction_rate_exact, mean_candidates_lsh, stream_ms_per_case
+heart      ,   42,       60, 1.6413866316249297,           42,             42,       1.0,               0.3 ,                 0.3 ,   110.95           ,             0.3482
+diabetes130,   42,       60, 3.1841335892677307,           45,             45,       1.0,               0.25,                 0.25,  1475.15           ,            10.5675
+chestxray14,   42,       60, 1.2463180124759674,           45,             45,       1.0,               0.25,                 0.25,   700.0333333333333,            20.8263

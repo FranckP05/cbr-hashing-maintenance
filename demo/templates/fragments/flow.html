@@ -1,0 +1,369 @@
+<!-- ══════════════════════════════════════════════════════════
+     FLUX COMPLET CONTINU DÉMO (Étapes ②, ③, ④ et ⑤ superposées)
+══════════════════════════════════════════════════════════ -->
+
+{# ─── ÉTAPE ② : Choix du mode d'obtention du cas ─── #}
+{% if has_dataset %}
+<section id="section-step-2" class="step-panel bg-purple">
+  <div class="step-number violet">2</div>
+  <p class="step-question">comment souhaitez-vous obtenir un nouveau cas?</p>
+
+  {% if state.manual_mode %}
+    {# Formulaire saisie manuelle Heart Disease #}
+    <form hx-post="/demo/submit-manual-case"
+          hx-target="#demo-dynamic"
+          hx-swap="innerHTML">
+      <div class="manual-form-grid">
+        {% for col in cfg["feature_columns"] %}
+        <div class="form-field">
+          <label for="f_{{ col }}">{{ col }}</label>
+          <input id="f_{{ col }}"
+                 name="{{ col }}"
+                 type="number" step="any" required
+                 value="{{ prev_values.get(col, '') }}">
+          {% if errors.get(col) %}
+            <span class="field-error">{{ errors[col] }}</span>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      <div class="mode-btns">
+        <button type="submit" class="btn-black">Valider</button>
+        <button type="button" class="btn-outline"
+                hx-post="/demo/generate-case"
+                hx-vals='{"mode": "auto"}'
+                hx-target="#demo-dynamic"
+                hx-swap="innerHTML">
+          Annuler
+        </button>
+      </div>
+    </form>
+  {% else %}
+    <div class="mode-btns">
+      <button class="btn-black"
+              hx-post="/demo/generate-case"
+              hx-vals='{"mode": "auto"}'
+              hx-target="#demo-dynamic"
+              hx-swap="innerHTML"
+              hx-indicator="#spinner-mode">
+        <span class="spinner htmx-indicator" id="spinner-mode"></span>
+        Génération automatique
+      </button>
+
+      {% if cfg["allow_manual_entry"] %}
+      <button class="btn-outline"
+              hx-post="/demo/generate-case"
+              hx-vals='{"mode": "manual"}'
+              hx-target="#demo-dynamic"
+              hx-swap="innerHTML">
+        Entrer à la main
+      </button>
+      {% endif %}
+    </div>
+  {% endif %}
+</section>
+{% endif %}
+
+
+{# ─── ÉTAPE ③ : Cas prêt, affichage des caractéristiques + Bouton Lancer ─── #}
+{% if has_case %}
+<section id="section-step-3" class="step-panel bg-violet">
+  <div class="step-number">3</div>
+
+  {# Affichage explicite des valeurs réelles du cas #}
+  {% set vals = state.current_case_meta.get("values", {}) %}
+  {% if vals %}
+  <div class="case-values-grid">
+    {% for col, val in vals.items() %}
+    <div class="case-value-chip">
+      <span class="chip-label">{{ col }}</span>
+      <span class="chip-val">
+        {% if val is iterable and val is not string %}{{ val | join(', ') }}{% else %}{{ val }}{% endif %}
+      </span>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p style="text-align:center;color:var(--muted);font-size:.875rem;margin-bottom:1.5rem;">
+    Cas test n°{{ state.current_case_meta.get("case_number","?") }} — {{ cfg["label"] }}
+  </p>
+  {% endif %}
+
+  <!-- Bouton Lancer l'analyse (fond jaune large centré) -->
+  <button class="btn-lancer"
+          hx-post="/demo/analyze"
+          hx-target="#demo-dynamic"
+          hx-swap="innerHTML"
+          hx-indicator="#spinner-ana">
+    <span class="spinner htmx-indicator" id="spinner-ana"></span>
+    Lancer l'analyse
+  </button>
+</section>
+{% endif %}
+
+
+{# ─── ÉTAPE ④ : Résultats live, Graphique Chart.js, État CBM et Verdict ─── #}
+{% if analyzed %}
+<section id="section-step-4" class="step-panel bg-purple">
+  <div class="step-number violet">4</div>
+  <p class="step-question">Les résultats obtenus par les modèles pour le cas suivant sont</p>
+
+  {% set lin  = results.get("linear", {}) %}
+  {% set kd   = results.get("kdtree", {}) %}
+  {% set lsh  = results.get("lsh", {}) %}
+  {% set hcbr = results.get("hecbr", {}) %}
+
+  {% macro fmt_t(ms) %}
+    {%- if ms is none -%}—
+    {%- elif ms >= 1000 -%}{{ "%.2f"|format(ms/1000) }} s
+    {%- elif ms >= 1 -%}{{ "%.2f"|format(ms) }} ms
+    {%- else -%}{{ "%.0f"|format(ms*1000) }} µs
+    {%- endif -%}
+  {% endmacro %}
+
+  <!-- ── 2 Colonnes : Textes à gauche / Chart.js à droite ── -->
+  <div class="results-section">
+    <div class="results-left">
+      <h3>Classification Result</h3>
+
+      {% if lsh and not lsh.get("error") and lsh.get("query_time_ms") is not none %}
+      <div class="result-label">Hachage (LSH) : {{ fmt_t(lsh.get("query_time_ms")) }}</div>
+      {% endif %}
+
+      {% if kd and not kd.get("error") and kd.get("query_time_ms") is not none %}
+      <div class="result-label">K-D Tree : {{ fmt_t(kd.get("query_time_ms")) }}</div>
+      {% endif %}
+
+      {% if hcbr and not hcbr.get("error") and hcbr.get("query_time_ms") is not none %}
+      <div class="result-label">HeCBR (Hamming) : {{ fmt_t(hcbr.get("query_time_ms")) }}</div>
+      {% endif %}
+
+      {% if lin and not lin.get("error") and lin.get("query_time_ms") is not none %}
+      <div class="result-label">Balayage linéaire : {{ fmt_t(lin.get("query_time_ms")) }}</div>
+      {% endif %}
+    </div>
+
+    {% if benchmark_chart %}
+    <div class="chart-container benchmark-chart" data-chart="benchmark">
+      <canvas id="benchmarkChart" data-chart-canvas="benchmark" role="img"
+              aria-label="Comparaison des temps de requête par méthode"></canvas>
+      <p class="chart-fallback" role="status">
+        Graphique indisponible ; les temps restent indiqués dans le tableau.
+      </p>
+      <script type="application/json" data-chart-data="benchmark">{{ benchmark_chart | tojson }}</script>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- ── Détails par méthode (Badges) ── -->
+  <div class="method-detail-cards">
+    {% macro method_badges(m, r) %}
+      {% if r.get("nearest_distance") is not none %}
+        <span class="badge badge-neutral">dist 1-NN : {{ "%.4f"|format(r["nearest_distance"]) }}</span>
+      {% endif %}
+      {% if r.get("redundant") is not none %}
+        {% if r["redundant"] %}
+          <span class="badge badge-warn">redondant (distance &lt; θ)</span>
+        {% else %}
+          <span class="badge badge-ok">nouveau cas retenu (distance ≥ θ)</span>
+        {% endif %}
+      {% endif %}
+      {% if r.get("agreement_with_reference") is not none and m != "linear" %}
+        {% set agr = r["agreement_with_reference"] %}
+        <span class="badge {{ 'badge-ok' if agr >= k else ('badge-warn' if agr >= k//2 else 'badge-err') }}">
+          {{ agr }}/{{ k }} voisins ≡ référence
+        </span>
+      {% endif %}
+      {% if r.get("index_frozen") %}
+        <span class="badge badge-indigo">index figé (codes pré-entraînés)</span>
+      {% endif %}
+      {% if r.get("error") %}
+        <span class="badge badge-err">{{ r["error"] }}</span>
+      {% endif %}
+    {% endmacro %}
+
+    {% if lsh %}
+    <div class="method-card">
+      <strong style="font-family:'Space Grotesk',sans-serif;font-size:.82rem;min-width:7rem">Hachage (LSH)</strong>
+      {{ method_badges("lsh", lsh) }}
+    </div>
+    {% endif %}
+
+    {% if kd %}
+    <div class="method-card">
+      <strong style="font-family:'Space Grotesk',sans-serif;font-size:.82rem;min-width:7rem">K-D Tree</strong>
+      {{ method_badges("kdtree", kd) }}
+    </div>
+    {% endif %}
+
+    {% if hcbr %}
+    <div class="method-card">
+      <strong style="font-family:'Space Grotesk',sans-serif;font-size:.82rem;min-width:7rem">HeCBR</strong>
+      {{ method_badges("hecbr", hcbr) }}
+    </div>
+    {% endif %}
+
+    {% if lin %}
+    <div class="method-card">
+      <strong style="font-family:'Space Grotesk',sans-serif;font-size:.82rem;min-width:7rem">Balayage linéaire</strong>
+      <span class="badge badge-neutral">référence déterministe</span>
+      {% if lin.get("redundant") is not none %}
+        {% if lin["redundant"] %}
+          <span class="badge badge-warn">redondant</span>
+        {% else %}
+          <span class="badge badge-ok">cas retenu</span>
+        {% endif %}
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- ── État de la base CBM après la requête ── -->
+  <div class="cbm-state">
+    <div>
+      <div class="cbm-stat-label">Base avant requête</div>
+      <div class="cbm-stat-value">{{ before }}</div>
+    </div>
+    <div>
+      <div class="cbm-stat-label">Décision CBM (Rétention)</div>
+      {% if results._after_added %}
+        <div class="cbm-stat-value cbm-decision-added">
+          <svg class="status-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="m8 12 2.5 2.5L16 9"></path></svg>
+          Cas ajouté (≥ θ)
+        </div>
+      {% else %}
+        <div class="cbm-stat-value cbm-decision-skipped">
+          <svg class="status-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5"></path><path d="M4 17a8 8 0 0 0 13.4 2.3L20 12"></path></svg>
+          Redondant (&lt; θ)
+        </div>
+      {% endif %}
+    </div>
+    <div>
+      <div class="cbm-stat-label">Base après requête</div>
+      <div class="cbm-stat-value">{{ after }}</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Verdict centré (fond blanc) ── -->
+<div class="verdict">
+  {% if results._fastest %}
+    {% set fname = {"lsh":"le Hachage (LSH)","kdtree":"le K-D Tree","linear":"le Balayage linéaire","hecbr":"HeCBR (Hamming)"}[results._fastest] %}
+    Verdict : {{ fname }} produit le résultat attendu en {{ fmt_t(results[results._fastest]["query_time_ms"]) }}
+  {% else %}
+    Analyse terminée.
+  {% endif %}
+</div>
+
+<!-- ── Boutons d'action pour l'étape 4 ── -->
+<section class="step-panel bg-violet" style="padding-top:1.25rem;padding-bottom:1.75rem;">
+  <div class="mode-btns">
+    <button class="btn-black"
+            hx-post="/demo/analyze"
+            hx-target="#demo-dynamic"
+            hx-swap="innerHTML">
+      Relancer (même cas)
+    </button>
+    <button class="btn-outline"
+            hx-post="/demo/generate-case"
+            hx-vals='{"mode": "auto"}'
+            hx-target="#demo-dynamic"
+            hx-swap="innerHTML">
+      Autre cas
+    </button>
+    <button class="btn-outline"
+            hx-post="/demo/reset"
+            hx-target="#demo-dynamic"
+            hx-swap="innerHTML">
+      Réinitialiser la base
+    </button>
+  </div>
+</section>
+
+{% endif %}
+
+
+{# ─── ÉTAPE ⑤ : Impact global de la Maintenance CBM (Condensation de la base) ─── #}
+{% if has_dataset %}
+<section id="section-step-5" class="step-panel bg-purple" style="border-top: 2px dashed rgba(109, 40, 217, 0.2); margin-top: 2rem;">
+  <div class="step-number">5</div>
+  <p class="step-question" style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">
+    Effet global de la maintenance CBM (Condensation de la base)
+  </p>
+  <p style="text-align: center; color: var(--muted); font-size: 0.9rem; margin-bottom: 1.75rem;">
+    Visualisez la proportion de cas conservés par rapport à la base brute initiale après application de la maintenance.
+  </p>
+
+  {% if not cbm_applied %}
+    <!-- Bouton pour déclencher la visualisation de la maintenance -->
+    <div style="text-align: center;">
+      <button class="btn-black"
+              style="background: var(--violet); width: auto; padding: 0.85rem 2rem;"
+              hx-post="/demo/apply-maintenance"
+              hx-target="#demo-dynamic"
+              hx-swap="innerHTML"
+              hx-indicator="#spinner-cbm">
+        <span class="spinner htmx-indicator" id="spinner-cbm"></span>
+        Visualiser l'effet de la maintenance CBM
+      </button>
+    </div>
+  {% else %}
+    <div class="maintenance-comparison" aria-label="Comparaison de la taille de base avant et après maintenance">
+      <div class="maintenance-bar-row">
+        <div class="maintenance-bar-label">
+          <span>Base initiale</span>
+          <strong>100 % — {{ "{:,}".format(maint_info.n_total).replace(",", "\u202f") }} cas</strong>
+        </div>
+        <svg class="maintenance-bar" viewBox="0 0 100 10" preserveAspectRatio="none" role="img" aria-label="Base initiale : 100 pour cent">
+          <rect class="maintenance-bar-track" width="100" height="10" rx="2"></rect>
+          <rect class="maintenance-bar-initial" width="100" height="10" rx="2"></rect>
+        </svg>
+      </div>
+      <div class="maintenance-bar-row">
+        <div class="maintenance-bar-label">
+          <span>Base condensée CBM</span>
+          <strong>{{ maint_info.pct_kept }} % — {{ "{:,}".format(maint_info.n_reduced).replace(",", "\u202f") }} cas</strong>
+        </div>
+        <svg class="maintenance-bar" viewBox="0 0 100 10" preserveAspectRatio="none" role="img" aria-label="Base condensée : {{ maint_info.pct_kept }} pour cent">
+          <rect class="maintenance-bar-track" width="100" height="10" rx="2"></rect>
+          <rect class="maintenance-bar-condensed" width="{{ maint_info.pct_kept }}" height="10" rx="2"></rect>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Panneau de statistiques comparatives CBM -->
+    <div class="cbm-state maintenance-stats">
+      <div>
+        <div class="cbm-stat-label">Base Initiale (Brute)</div>
+        <div class="cbm-stat-value">{{ "{:,}".format(maint_info.n_total).replace(",", "\u202f") }} cas</div>
+        <span style="font-size: 0.75rem; color: var(--muted);">100 % de la base</span>
+      </div>
+      <div>
+        <div class="cbm-stat-label">Réduction CBM</div>
+        <div class="cbm-stat-value" style="color: #DC2626;">-{{ maint_info.pct_reduced }} %</div>
+        <span style="font-size: 0.75rem; color: #16A34A; font-weight: 600;">Cas redondants éliminés</span>
+      </div>
+      <div>
+        <div class="cbm-stat-label">Base Condensée CBM</div>
+        <div class="cbm-stat-value" style="color: #16A34A;">{{ "{:,}".format(maint_info.n_reduced).replace(",", "\u202f") }} cas</div>
+        <span style="font-size: 0.75rem; color: var(--muted);">{{ maint_info.pct_kept }} % conservés (Précision : {{ maint_info.precision }} %)</span>
+      </div>
+    </div>
+
+    <p class="maintenance-summary">
+      <svg class="status-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4M12 16h.01"></path></svg>
+      <span><strong>Bilan CBM :</strong> La maintenance par condensation réduit la base de <strong>{{ maint_info.pct_reduced }} %</strong> en éliminant les cas redondants. Cela divise par ~3 l'empreinte mémoire et accélère drastiquement les recherches sans perte de précision diagnostique.</span>
+    </p>
+
+    <div style="text-align: center;">
+      <button class="btn-outline"
+              hx-post="/demo/reset-maintenance"
+              hx-target="#demo-dynamic"
+              hx-swap="innerHTML">
+        Réinitialiser la vue maintenance
+      </button>
+    </div>
+
+  {% endif %}
+</section>
+{% endif %}

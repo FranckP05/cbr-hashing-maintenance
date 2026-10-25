@@ -1,0 +1,9 @@
+<section class="load-error" role="alert">
+  <h2>Jeu de données indisponible dans cet environnement</h2>
+  <p>
+    <strong>{{ dataset["label"] }}</strong> utilise des fichiers Parquet. Lancez la démo avec
+    l'environnement virtuel du projet, qui contient la dépendance requise :
+  </p>
+  <pre><code>./venv/bin/python demo/app.py</code></pre>
+  <p class="load-error-detail">{{ dependency_error }}</p>
+</section>

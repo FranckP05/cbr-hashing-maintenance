@@ -1,0 +1,30 @@
+{
+  "heart_disease_full": {
+    "num_hashes": 1,
+    "num_tables": 20,
+    "num_rotations": 2,
+    "num_probes": 1,
+    "hash_seed": 11
+  },
+  "chest_xray14_10000": {
+    "num_hashes": 2,
+    "num_tables": 20,
+    "num_rotations": 2,
+    "num_probes": 1,
+    "hash_seed": 11
+  },
+  "chest_xray14_50000": {
+    "num_hashes": 2,
+    "num_tables": 20,
+    "num_rotations": 2,
+    "num_probes": 1,
+    "hash_seed": 11
+  },
+  "chest_xray14_full": {
+    "num_hashes": 2,
+    "num_tables": 10,
+    "num_rotations": 2,
+    "num_probes": 1,
+    "hash_seed": 11
+  }
+}

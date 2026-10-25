@@ -1,0 +1,20 @@
+{
+  "notebook": "NB06",
+  "run_dir": "/home/customizer/Downloads/Research/Hashing/code/exp2/results/20260811_183845_kaggle",
+  "completed_at": "2026-08-13T03:45:36",
+  "tasks": {
+    "T2.3": "FIG-R3_scaling_temps_requete.png",
+    "T2.4": "FIG-R4_scaling_temps_construction.png"
+  },
+  "figures": [
+    "FIG-R10_matrice_significativite.png",
+    "FIG-R11_calibration_lsh_chestxray14.png",
+    "FIG-R1_qualite_recuperation.png",
+    "FIG-R2_temps_requete.png",
+    "FIG-R3_scaling_temps_requete.png",
+    "FIG-R4_scaling_temps_construction.png",
+    "FIG-R5_accord_retention.png",
+    "FIG-R6_qualite_post_maintenance.png",
+    "FIG-R7_temps_post_maintenance.png"
+  ]
+}

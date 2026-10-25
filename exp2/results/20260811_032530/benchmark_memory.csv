@@ -1,0 +1,11 @@
+dataset,method,index_peak_rss_kb,query_tracemalloc_peak_kb,query_rss_delta_kb
+heart,linear,0,10.89,164
+heart,kdtree,232,7.58,0
+heart,lsh,184,14.63,308
+diabetes130,linear,20636,1598.37,0
+diabetes130,kdtree,16492,10.53,0
+diabetes130,lsh,15336,66930.97,0
+diabetes130,hecbr,22748,5788.03,0
+chestxray14,linear,0,1758.14,0
+chestxray14,kdtree,0,15.48,0
+chestxray14,lsh,0,54811.11,0

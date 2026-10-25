@@ -1,0 +1,5 @@
+dataset,base_size,verdict,recall@10,cp_lin_ratio
+chest_xray14,10000,quality_ok_no_speedup,0.9741,4.09
+chest_xray14,50000,quality_ok_no_speedup,0.9894,3.88
+chest_xray14,full,quality_ok_no_speedup,0.9817,4.31
+heart_disease,full,quality_ok_no_speedup,0.9858,11.1
